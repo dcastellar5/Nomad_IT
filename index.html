@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NomadIT | Technical Field Services & Nationwide Deployments</title>
+    <meta name="description"
+        content="On-site IT installations, structured cabling, alarms, retail POS systems, EV charging stations, and nationwide technical field services.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="auth-modal">
+        <div class="auth-modal-content">
+            <span class="auth-close" id="auth-close-btn">&times;</span>
+            <h2 id="auth-title">Partner Login</h2>
+            <form id="auth-form">
+                <input type="email" id="auth-email" placeholder="Email Address" required>
+                <input type="password" id="auth-password" placeholder="Password" required>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Sign In</button>
+            </form>
+            <p class="auth-toggle-text">
+                Need a corporate dispatch account? <a href="#" id="auth-toggle-link">Register Company</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Wizard Subscribe Now Modal (Dispatch Request Wizard) -->
+    <div id="wizard-modal" class="auth-modal">
+        <div class="auth-modal-content" style="max-width: 600px; padding: 2.5rem;">
+            <span class="wizard-close auth-close" id="wizard-close-btn">&times;</span>
+
+            <!-- Progress Bar -->
+            <div style="display: flex; justify-content: space-between; margin-bottom: 2.5rem; position: relative;">
+                <div
+                    style="position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: rgba(255,255,255,0.1); z-index: 1;">
+                </div>
+                <div class="wizard-step-dot" id="dot-1"
+                    style="z-index: 2; background: var(--bg-secondary); padding: 0 10px; color: var(--accent); font-weight: bold;">
+                    1. Scope</div>
+                <div class="wizard-step-dot" id="dot-2"
+                    style="z-index: 2; background: var(--bg-secondary); padding: 0 10px; color: var(--text-secondary); font-weight: bold;">
+                    2. Terms</div>
+                <div class="wizard-step-dot" id="dot-3"
+                    style="z-index: 2; background: var(--bg-secondary); padding: 0 10px; color: var(--text-secondary); font-weight: bold;">
+                    3. Dispatch</div>
+            </div>
+
+            <!-- Step 1: Review Scope -->
+            <div id="wizard-step-1" class="wizard-step" style="display: block;">
+                <h2 id="wizard-pkg-name">Dispatch Request</h2>
+                <div class="price" id="wizard-pkg-price" style="font-size: 2rem; margin: 1rem 0;">Est. Base Rate</div>
+                <div
+                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; text-align: left; margin-bottom: 1.5rem;">
+                    <h4 style="margin-bottom: 1rem; color: var(--accent); font-size: 1.1rem;">Select Service Category</h4>
+                    <select id="wizard-trade-select" style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-primary); color: white; margin-bottom: 1.2rem;">
+                        <option value="cabling">Low Voltage & Fiber Cabling</option>
+                        <option value="pos">Point of Sale & Retail Systems</option>
+                        <option value="security">Access Control, Alarms & CCTV</option>
+                        <option value="networking">Servers, Network & Telecom</option>
+                        <option value="specialty">EV Chargers & Office Equipment</option>
+                    </select>
+                    <h4 style="margin-bottom: 0.5rem; color: var(--accent); font-size: 1.1rem;">Brief Scope of Work (SOW)</h4>
+                    <textarea id="wizard-sow-text" placeholder="Describe the on-site work required (e.g., Run 4 Cat6 cables, mount 2 IP cameras, swap POS terminal)..." style="width: 100%; height: 100px; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-primary); color: white; resize: none; font-family: var(--font-sans); margin-bottom: 1rem; outline: none;"></textarea>
+                    <p style="font-size: 0.95rem; color: var(--text-secondary);">You are booking: <strong id="wizard-pkg-title">On-Demand</strong> dispatch for <strong id="wizard-pkg-users">1 Site</strong>.</p>
+                </div>
+                <button class="btn btn-primary" id="btn-next-2" style="width: 100%;">Review Dispatch Terms</button>
+            </div>
+
+            <!-- Step 2: Terms & Agreement -->
+            <div id="wizard-step-2" class="wizard-step" style="display: none; text-align: left;">
+                <h2 style="text-align: center; margin-bottom: 1.5rem;">Service Level & SLA Agreement</h2>
+                <div
+                    style="height: 250px; overflow-y: auto; background: rgba(0,0,0,0.3); padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary);">
+                    <p style="margin-bottom: 1rem;"><strong style="color: white;">1. Scope & Not-To-Exceed (NTE):</strong> Work orders are dispatched under a strictly authorized labor limit. Technician will request check-out approval before exceeding authorized hours.</p>
+                    <p style="margin-bottom: 1rem;"><strong style="color: white;">2. Deliverables & Closeout:</strong> NomadIT provides complete photo documentation of all installations, cable certification logs (Fluke scans if ordered), and signed client sign-off sheets upon job completion.</p>
+                    <p style="margin-bottom: 1rem;"><strong style="color: white;">3. Arrival Window & SLA:</strong> Standard dispatch occurs within 24–48 hours. Emergency dispatches will have a technician on-site within 4 hours. 2-hour arrival windows apply.</p>
+                    <p style="margin-bottom: 1rem;"><strong style="color: white;">4. Work Warranty:</strong> All physical cabling runs and hardware installations carry a 30-day labor workmanship warranty from date of ticket sign-off.</p>
+                </div>
+                <label
+                    style="display: flex; align-items: center; gap: 1rem; cursor: pointer; margin-bottom: 2rem; font-weight: 500; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                    <input type="checkbox" id="contract-checkbox"
+                        style="width: 24px; height: 24px; cursor: pointer; accent-color: var(--accent);">
+                    I agree to the Dispatch terms, SLA windows, and NTE policy.
+                </label>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-outline" id="btn-prev-1" style="flex: 1;">Back</button>
+                    <button class="btn btn-primary" id="btn-next-3"
+                        style="flex: 2; opacity: 0.5; pointer-events: none; transition: all 0.3s;">Verify Authorization</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Payment & Authorization -->
+            <div id="wizard-step-3" class="wizard-step" style="display: none; text-align: left;">
+                <h2 style="text-align: center; margin-bottom: 1.5rem;">Pre-Authorize Dispatch</h2>
+
+                <div class="payment-tabs"
+                    style="display: flex; gap: 1.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; justify-content: center;">
+                    <button class="wizard-tab active" data-tab="card"
+                        style="background: none; border: none; color: var(--accent); font-weight: 600; font-size: 1.1rem; cursor: pointer; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent);">Credit Card</button>
+                    <button class="wizard-tab" data-tab="bank"
+                        style="background: none; border: none; color: var(--text-secondary); font-weight: 600; font-size: 1.1rem; cursor: pointer; padding-bottom: 0.5rem;">Corporate Invoice / ACH</button>
+                </div>
+
+                <form id="wizard-payment-form">
+                    <div id="wizard-tab-card" class="wizard-tab-content active" style="display: block;">
+                        <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+                            <input type="text" placeholder="Cardholder Name" required
+                                style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border-color); background-color: rgba(255,255,255,0.03); color: var(--text-primary); outline: none; font-size: 1rem;">
+                            <input type="text" placeholder="Card Number (0000 0000 0000 0000)" required
+                                style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border-color); background-color: rgba(255,255,255,0.03); color: var(--text-primary); outline: none; font-size: 1rem;">
+                            <div style="display: flex; gap: 1.2rem;">
+                                <input type="text" placeholder="MM/YY" required
+                                    style="width: 50%; padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border-color); background-color: rgba(255,255,255,0.03); color: var(--text-primary); outline: none; font-size: 1rem;">
+                                <input type="text" placeholder="CVC" required
+                                    style="width: 50%; padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border-color); background-color: rgba(255,255,255,0.03); color: var(--text-primary); outline: none; font-size: 1rem;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="wizard-tab-bank" class="wizard-tab-content" style="display: none;">
+                        <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+                            <input type="text" placeholder="Company Legal Name" required
+                                style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border-color); background-color: rgba(255,255,255,0.03); color: var(--text-primary); outline: none; font-size: 1rem;">
+                            <input type="text" placeholder="Bank Routing Number" required
+                                style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border-color); background-color: rgba(255,255,255,0.03); color: var(--text-primary); outline: none; font-size: 1rem;">
+                            <input type="text" placeholder="Account Number" required
+                                style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border-color); background-color: rgba(255,255,255,0.03); color: var(--text-primary); outline: none; font-size: 1rem;">
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button type="button" class="btn btn-outline" id="btn-prev-2" style="flex: 1;">Back</button>
+                        <button type="submit" class="btn btn-primary" style="flex: 2; font-size: 1.1rem;" id="wizard-submit-btn">Authorize & Dispatch</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo-container">
+                <img src="assets/logo.png" alt="NomadIT Logo" class="logo-img">
+                <span class="logo-text">NomadIT</span>
+            </a>
+            <div class="nav-links">
+                <a href="#services">Services</a>
+                <a href="#packages">Dispatch Tiers</a>
+                <a href="#portfolio">Case Studies</a>
+                <a href="#fn-jobs" style="color: #ff9d42; font-weight: 700;">⚡ Available Jobs (FN)</a>
+                <a href="#metrics">Why Us</a>
+                <a href="#about">About</a>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <a href="#" id="nav-login-btn"
+                    style="color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.3s ease;">Client Login</a>
+                <a href="assessment.html" class="btn btn-primary" id="header-cta-btn">Get On-Site Estimate</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <!-- Background/Introductory Video -->
+        <video autoplay loop muted playsinline class="hero-bg-video" id="hero-bg-video-element">
+            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+                type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="hero-content animate-up">
+                <span class="badge">NATIONWIDE FIELD ENGINEERING</span>
+                <h1>Precision On-Site Tech. <span class="highlight">Everywhere You Need It.</span></h1>
+                <p>From structural fiber cabling and alarm systems to point-of-sale rollouts, CCTV, and EV charging stations, we dispatch vetted, background-checked field technicians to deploy your technology on-site.</p>
+                <div class="hero-actions">
+                    <a href="assessment.html" class="btn btn-primary">Build Custom Scope & Estimate</a>
+                    <a href="#services" class="btn btn-outline">Explore Field Services</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="stats-bar" style="padding: 2.5rem 0; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color);">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: center;">
+                <div>
+                    <h3 style="font-size: 2.5rem; color: var(--accent); margin-bottom: 0.2rem;">5,000+</h3>
+                    <p style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);">Jobs Completed</p>
+                </div>
+                <div>
+                    <h3 style="font-size: 2.5rem; color: var(--accent); margin-bottom: 0.2rem;">4.9 / 5</h3>
+                    <p style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);">Average Tech Rating</p>
+                </div>
+                <div>
+                    <h3 style="font-size: 2.5rem; color: var(--accent); margin-bottom: 0.2rem;">99.8%</h3>
+                    <p style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);">SLA Check-In Rate</p>
+                </div>
+                <div>
+                    <h3 style="font-size: 2.5rem; color: var(--accent); margin-bottom: 0.2rem;">$2M</h3>
+                    <p style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);">General Liability Cover</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Explorer Section -->
+    <section id="services" class="container">
+        <div class="section-header animate-up">
+            <span class="badge">Scope of Capabilities</span>
+            <h2>Vetted Trades & On-Site Solutions</h2>
+            <p>We deploy certified technicians covering low-voltage, retail platforms, security, and hardware integrations.</p>
+        </div>
+
+        <!-- Service Filter Tabs -->
+        <div class="service-tabs animate-up delay-1" style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 3.5rem; flex-wrap: wrap;">
+            <button class="tab-btn active" data-filter="all">All Services</button>
+            <button class="tab-btn" data-filter="cabling">Cabling & Fiber</button>
+            <button class="tab-btn" data-filter="security">Security & Alarms</button>
+            <button class="tab-btn" data-filter="retail">Retail & POS</button>
+            <button class="tab-btn" data-filter="systems">Systems & Networking</button>
+            <button class="tab-btn" data-filter="specialty">Specialty Trades</button>
+        </div>
+
+        <div class="grid-3" id="service-grid">
+            <!-- 1. Access & Alarms -->
+            <div class="card service-card animate-up delay-1" data-category="security">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                </div>
+                <h3>Access & Alarms</h3>
+                <p>Complete physical security, authorization control systems, and automated intruder warning devices.</p>
+                <ul>
+                    <li>Access Control (Badge Readers, Maglocks)</li>
+                    <li>Burglar Alarms & Motion Sensors</li>
+                    <li>General Facility Alarm Systems</li>
+                </ul>
+            </div>
+
+            <!-- 2. A/V & Digital Signage -->
+            <div class="card service-card animate-up delay-2" data-category="specialty">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="12" y1="18" x2="12" y2="22"/>
+                        <line x1="8" y1="22" x2="16" y2="22"/>
+                    </svg>
+                </div>
+                <h3>A/V & Digital Signage</h3>
+                <p>Dynamic commercial displays, audio integrations, and satellite television setups for office and retail environments.</p>
+                <ul>
+                    <li>Audio Visual Systems & Speakers</li>
+                    <li>Digital Signage Panels & Media Players</li>
+                    <li>Satellite TV Receivers & Dish Alignment</li>
+                </ul>
+            </div>
+
+            <!-- 3. Cameras -->
+            <div class="card service-card animate-up delay-3" data-category="security">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                        <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                </div>
+                <h3>Cameras & CCTV</h3>
+                <p>High-definition surveillance cameras to protect assets, audit operations, and secure parameters.</p>
+                <ul>
+                    <li>CCTV Analog Camera & DVR Deployments</li>
+                    <li>IP Surveillance Cameras & NVR Setup</li>
+                    <li>Remote Access Config & Viewing Stations</li>
+                </ul>
+            </div>
+
+            <!-- 4. EV Equipment -->
+            <div class="card service-card animate-up delay-1" data-category="specialty">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                </div>
+                <h3>EV Charging Stations</h3>
+                <p>Professional installation, maintenance, and diagnostics of Level 2 and Level 3 DC EV Chargers.</p>
+                <ul>
+                    <li>EV Charging Station Mounting & Wiring</li>
+                    <li>Network Connectivity & Commissioning</li>
+                    <li>Fault Diagnostics & Component Swaps</li>
+                </ul>
+            </div>
+
+            <!-- 5. Fiber Cabling -->
+            <div class="card service-card animate-up delay-2" data-category="cabling">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                </div>
+                <h3>Fiber Optic Cabling</h3>
+                <p>High-bandwidth backbone cabling, terminations, and testing for commercial networks.</p>
+                <ul>
+                    <li>Fiber Runs (Single-Mode & Multi-Mode)</li>
+                    <li>Fiber Fusion Splicing & Patch Cabling</li>
+                    <li>Fiber Testing & Fluke Certification Scans</li>
+                </ul>
+            </div>
+
+            <!-- 6. Kiosk / ATM -->
+            <div class="card service-card animate-up delay-3" data-category="retail">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                        <line x1="12" y1="18" x2="12" y2="18"/>
+                    </svg>
+                </div>
+                <h3>Kiosk, ATM & Lockers</h3>
+                <p>Assembly, mounting, and digital connection of self-service hardware, financial terminals, and automated parcel lockers.</p>
+                <ul>
+                    <li>ATM Upgrades & Board Swaps</li>
+                    <li>Interactive Information Kiosk Assembly</li>
+                    <li>Smart Parcel Lockers Installation & Sync</li>
+                </ul>
+            </div>
+
+            <!-- 7. Low Voltage Cabling -->
+            <div class="card service-card animate-up delay-1" data-category="cabling">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                </div>
+                <h3>Low Voltage Cabling</h3>
+                <p>Structured copper ethernet cabling (Cat5e, Cat6, Cat6A) for workstations, access points, and devices.</p>
+                <ul>
+                    <li>Structured Cabling, Runs & Pathways</li>
+                    <li>Low Voltage Certification & Testing</li>
+                    <li>Patch Cabling & Rack Dressings (MDF/IDF)</li>
+                </ul>
+            </div>
+
+            <!-- 8. Office Equipment -->
+            <div class="card service-card animate-up delay-2" data-category="specialty">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                </div>
+                <h3>Office Equipment</h3>
+                <p>Hardware setup, provisioning, and troubleshooting of business printers, workstation terminals, and enterprise copiers.</p>
+                <ul>
+                    <li>Network Copier/Printer Hardware Configuration</li>
+                    <li>Windows & Mac workstation deployments</li>
+                    <li>Device image loads & endpoint registration</li>
+                </ul>
+            </div>
+
+            <!-- 9. Point of Sale (POS) -->
+            <div class="card service-card animate-up delay-3" data-category="retail">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="4" width="20" height="16" rx="2"/>
+                        <line x1="10" y1="20" x2="14" y2="20"/>
+                        <line x1="12" y1="4" x2="12" y2="20"/>
+                    </svg>
+                </div>
+                <h3>Point of Sale (POS)</h3>
+                <p>Installation and validation of POS systems, card terminals, receipt printers, and automated self-checkout registers.</p>
+                <ul>
+                    <li>POS Terminal Mounts & Cabling</li>
+                    <li>Self-Checkout System Construction</li>
+                    <li>Receipt Printers, Scanners & Pedestal Swaps</li>
+                </ul>
+            </div>
+
+            <!-- 10. Retail Services -->
+            <div class="card service-card animate-up delay-1" data-category="retail">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                    </svg>
+                </div>
+                <h3>Retail Services</h3>
+                <p>Commercial fixtures, visual displays, in-store branding setups, and visual merchandising rollouts.</p>
+                <ul>
+                    <li>Advertising Panels & Pop-up Displays</li>
+                    <li>Retail Shelving & Fixture Assemblies</li>
+                    <li>Planogram Audits & Merchandising Execution</li>
+                </ul>
+            </div>
+
+            <!-- 11. Server & Networking -->
+            <div class="card service-card animate-up delay-2" data-category="systems">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+                        <line x1="6" y1="6" x2="6" y2="6"/>
+                        <line x1="6" y1="18" x2="6" y2="18"/>
+                    </svg>
+                </div>
+                <h3>Server & Networking</h3>
+                <p>Rack-and-stack services, server deployments, wireless network validation, and satellite networking infrastructure.</p>
+                <ul>
+                    <li>Network Switch, Router & Firewall Mounting</li>
+                    <li>Server/Storage Rack Mounts & Patching</li>
+                    <li>Wireless Access Point (AP) Mapping & Tests</li>
+                </ul>
+            </div>
+
+            <!-- 12. Telecom & POTS -->
+            <div class="card service-card animate-up delay-3" data-category="systems">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                </div>
+                <h3>Telecom & VoIP</h3>
+                <p>POTS lines demarcation extensions, structured phone block wiring, and cloud VoIP systems setup.</p>
+                <ul>
+                    <li>POTS Demarcation Extensions & Block Punches</li>
+                    <li>VoIP-SIP Phone System Configuration & Mapping</li>
+                    <li>Analog-to-Digital line conversion gateways</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages & Dispatch Pricing Section -->
+    <section id="packages" class="container" style="padding-top: 0;">
+        <div class="section-header animate-up">
+            <span class="badge">Commercial Options</span>
+            <h2>Flexible Dispatch & Service Models</h2>
+            <p>Choose the engagement model that fits your operational request or rollout budget.</p>
+        </div>
+
+        <div class="grid-3">
+            <!-- Package 1: On-Demand Dispatch -->
+            <div class="card pricing-card animate-up delay-1" style="display: flex; flex-direction: column;">
+                <h3>On-Demand Dispatch</h3>
+                <div class="price">$175<span> travel + $95/hr</span></div>
+                <div
+                    style="color: var(--accent); font-size: 0.95rem; font-weight: 600; margin-top: -0.5rem; margin-bottom: 1rem; opacity: 0.9;">
+                    2-Hour Labor Minimum</div>
+                <p style="margin-bottom: 1.5rem;">Fast dispatch for single-site outages, cabling fixes, or equipment troubleshooting.</p>
+
+                <div class="package-marketing"
+                    style="background: rgba(0,240,255,0.05); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(0,240,255,0.1); margin-bottom: 1.5rem; flex-grow: 1; text-align: left;">
+                    <h4 style="color: var(--text-primary); margin-bottom: 0.5rem; font-size: 1.05rem;">Best For:</h4>
+                    <p style="font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5;">Emergency or standard ticket dispatch for immediate repair or hardware replacement.</p>
+
+                    <h4 style="color: var(--text-primary); margin-bottom: 0.8rem; font-size: 1.05rem;">Deliverables:</h4>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li style="margin-bottom: 0.8rem; display: flex; gap: 0.8rem; font-size: 0.95rem;"><span
+                                style="color:var(--accent);">✦</span> 24-48 hr dispatch window (or 4-hr emergency)</li>
+                        <li style="margin-bottom: 0.8rem; display: flex; gap: 0.8rem; font-size: 0.95rem;"><span
+                                style="color:var(--accent);">✦</span> Check-in / check-out logs and photo proof</li>
+                        <li style="display: flex; gap: 0.8rem; font-size: 0.95rem;"><span
+                                style="color:var(--accent);">✦</span> 30-day labor warranty on runs & installs</li>
+                    </ul>
+                </div>
+
+                <button class="btn btn-outline btn-start-wizard" data-package="On-Demand Dispatch" data-users="1 Site"
+                    data-price="$175 / dispatch" style="width: 100%; margin-top: auto;">Book Dispatch</button>
+            </div>
+
+            <!-- Package 2: Project Rollout -->
+            <div class="card pricing-card popular animate-up delay-2" style="display: flex; flex-direction: column;">
+                <div class="popular-badge">Turnkey</div>
+                <h3>Multi-Site Rollout</h3>
+                <div class="price">SOW Scoped<span>/Project</span></div>
+                <div
+                    style="color: var(--accent); font-size: 0.95rem; font-weight: 600; margin-top: -0.5rem; margin-bottom: 1rem; opacity: 0.9;">
+                    Volume Discounts Apply</div>
+                <p style="margin-bottom: 1.5rem;">Corporate-wide upgrades, hardware refreshes, or new location cabling installations.</p>
+
+                <div class="package-marketing"
+                    style="background: rgba(0,240,255,0.05); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(0,240,255,0.2); margin-bottom: 1.5rem; flex-grow: 1; text-align: left;">
+                    <h4 style="color: var(--text-primary); margin-bottom: 0.5rem; font-size: 1.05rem;">Best For:</h4>
+                    <p style="font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5;">Deploying tech (POS, cameras, network hardware) across 10 to 500+ locations.</p>
+
+                    <h4 style="color: var(--text-primary); margin-bottom: 0.8rem; font-size: 1.05rem;">Deliverables:</h4>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li style="margin-bottom: 0.8rem; display: flex; gap: 0.8rem; font-size: 0.95rem;"><span
+                                style="color:var(--accent);">✦</span> Dedicated corporate Project Manager</li>
+                        <li style="margin-bottom: 0.8rem; display: flex; gap: 0.8rem; font-size: 0.95rem;"><span
+                                style="color:var(--accent);">✦</span> Unified billing, status reports, and photo albums</li>
+                        <li style="display: flex; gap: 0.8rem; font-size: 0.95rem;"><span
+                                style="color:var(--accent);">✦</span> Customized Scope of Work drafting assistance</li>
+                    </ul>
+                </div>
+
+                <a href="assessment.html" class="btn btn-primary" style="width: 100%; text-align: center; margin-top: auto;">Get Rollout Quote</a>
+            </div>
+
+            <!-- Package 3: Managed SLA Retainer -->
+            <div class="card pricing-card animate-up delay-3" style="display: flex; flex-direction: column;">
+                <h3>Managed SLA Retainer</h3>
+                <div class="price">$699<span>/mo per site</span></div>
+                <div
+                    style="color: var(--accent); font-size: 0.95rem; font-weight: 600; margin-top: -0.5rem; margin-bottom: 1rem; opacity: 0.9;">
+                    Guaranteed Dispatch SLA</div>
+                <p style="margin-bottom: 1.5rem;">Ongoing preventative maintenance and priority ticket dispatching for business chains.</p>
+
+                <div class="package-marketing"
+                    style="background: rgba(0,240,255,0.05); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(0,240,255,0.1); margin-bottom: 1.5rem; flex-grow: 1; text-align: left;">
+                    <h4 style="color: var(--text-primary); margin-bottom: 0.5rem; font-size: 1.05rem;">Best For:</h4>
+                    <p style="font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5;">Maintaining site health: regular checks of POS registers, camera cleanings, and backups.</p>
+
+                    <h4 style="color: var(--text-primary); margin-bottom: 0.8rem; font-size: 1.05rem;">Deliverables:</h4>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li style="margin-bottom: 0.8rem; display: flex; gap: 0.8rem; font-size: 0.95rem;"><span
+                                style="color:var(--accent);">✦</span> 1 preventative maintenance site visit/mo</li>
+                        <li style="margin-bottom: 0.8rem; display: flex; gap: 0.8rem; font-size: 0.95rem;"><span
+                                style="color:var(--accent);">✦</span> 4-hour on-site SLA for emergency issues</li>
+                        <li style="display: flex; gap: 0.8rem; font-size: 0.95rem;"><span
+                                style="color:var(--accent);">✦</span> No travel fee on standard tickets</li>
+                    </ul>
+                </div>
+
+                <button class="btn btn-outline btn-start-wizard" data-package="Managed Retainer" data-users="Per Location"
+                    data-price="$699" style="width: 100%; margin-top: auto;">Subscribe Retainer</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Showcase Section -->
+    <section id="showcase" class="container" style="border-top: 1px solid var(--border-color); padding-bottom: 4rem;">
+        <div class="section-header animate-up">
+            <span class="badge">Operations Tour</span>
+            <h2>On-Site Technical Deployments in Action</h2>
+            <p>Watch how our field engineers coordinate dispatches, deploy structured cabling, and certify POS systems.</p>
+        </div>
+        
+        <div class="video-showcase-container animate-up delay-1" style="max-width: 1000px; margin: 0 auto; position: relative; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
+            <!-- Video Poster/Thumbnail overlay -->
+            <div id="video-cover" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(11,15,25,0.9)), url('assets/poster.png') no-repeat center center/cover; z-index: 5; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: opacity 0.5s ease;">
+                <div class="play-button-outer" style="width: 90px; height: 90px; border-radius: 50%; background: rgba(0, 240, 255, 0.1); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; box-shadow: 0 0 30px var(--accent-glow);">
+                    <svg viewBox="0 0 24 24" fill="var(--accent)" width="40" height="40" style="margin-left: 5px;">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                </div>
+            </div>
+            
+            <!-- Interactive Operations Simulation Viewport -->
+            <div id="simulation-viewport" style="width: 100%; aspect-ratio: 16/9; background: #050811; position: relative; overflow: hidden; display: flex; font-family: var(--font-sans);">
+                <!-- Dynamic High-Tech Animation Content -->
+                <div id="sim-background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #0d1527 0%, #050811 100%); opacity: 0.8; z-index: 1;"></div>
+                
+                <!-- Radar Grid Overlay -->
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px); background-size: 24px 24px; z-index: 2;"></div>
+                
+                <!-- Left Main Content Viewport -->
+                <div style="flex: 1; height: 100%; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; padding-bottom: 4rem; box-sizing: border-box;">
+                    <!-- Terminal overlay -->
+                    <div id="sim-terminal" style="position: absolute; top: 20px; left: 20px; z-index: 3; color: var(--accent); font-family: monospace; font-size: 0.85rem; line-height: 1.6; text-align: left; text-shadow: 0 0 10px var(--accent-glow); pointer-events: none;">
+                        <div style="color: #94a3b8;">SYSTEM INITIALIZATION...</div>
+                        <div id="sim-log-1">> Ready to start ops tour</div>
+                        <div id="sim-log-2"></div>
+                        <div id="sim-log-3"></div>
+                    </div>
+
+                    <!-- Simulation Stages Container -->
+                    <div id="sim-stage-container" style="position: relative; z-index: 3; width: 80%; height: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; pointer-events: none; margin-top: 2rem;">
+                        <div id="sim-visual" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                             <!-- Initial pulsing load icon -->
+                             <svg viewBox="0 0 100 100" width="100" height="100" style="filter: drop-shadow(0 0 10px var(--accent-glow));">
+                                  <circle cx="50" cy="50" r="15" fill="none" stroke="var(--accent)" stroke-width="2">
+                                      <animate attributeName="r" values="15;30;15" dur="2s" repeatCount="indefinite"/>
+                                      <animate attributeName="opacity" values="1;0.2;1" dur="2s" repeatCount="indefinite"/>
+                                  </circle>
+                                  <circle cx="50" cy="50" r="6" fill="var(--accent)"></circle>
+                             </svg>
+                        </div>
+                    </div>
+
+                    <!-- Guided Narrative Caption Card -->
+                    <div id="sim-narrator-card" style="width: 85%; background: rgba(5, 8, 17, 0.95); border: 1px solid rgba(0, 240, 255, 0.25); padding: 0.8rem 1.2rem; border-radius: 8px; font-family: monospace; font-size: 0.76rem; line-height: 1.4; color: var(--text-secondary); text-align: center; margin-top: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.5); min-height: 3rem; display: flex; align-items: center; justify-content: center; z-index: 3; box-sizing: border-box;">
+                        [NARRATION INITIALIZATION...]
+                    </div>
+                </div>
+
+                <!-- Right Side Dispatch Workflow Panel -->
+                <div id="sim-workflow-panel" style="width: 320px; height: 100%; border-left: 1px solid var(--border-color); background: rgba(10, 15, 30, 0.7); backdrop-filter: blur(5px); padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; box-sizing: border-box; font-family: monospace; z-index: 3; padding-bottom: 5rem; justify-content: center;">
+                    <div style="font-weight: bold; color: var(--text-primary); font-size: 0.9rem; letter-spacing: 1px; border-bottom: 1px solid rgba(0, 240, 255, 0.2); padding-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--accent); animation: pulse 2s infinite;">●</span> DISPATCH PIPELINE
+                    </div>
+                    
+                    <!-- Step 1 -->
+                    <div class="wf-step" id="wf-step-1" style="opacity: 0.4; transition: all 0.3s ease; display: flex; gap: 0.8rem; align-items: start; font-size: 0.8rem;">
+                        <span class="wf-bullet" style="color: var(--accent); font-weight: bold; background: rgba(0,240,255,0.05); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,240,255,0.1);">01</span>
+                        <div>
+                            <div style="color: var(--text-primary); font-weight: bold;">Assign & Schedule</div>
+                            <div style="color: #94a3b8; font-size: 0.72rem; line-height: 1.3; margin-top: 2px;" id="wf-detail-1">Vetting technician credentials</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="wf-step" id="wf-step-2" style="opacity: 0.4; transition: all 0.3s ease; display: flex; gap: 0.8rem; align-items: start; font-size: 0.8rem;">
+                        <span class="wf-bullet" style="color: var(--accent); font-weight: bold; background: rgba(0,240,255,0.05); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,240,255,0.1);">02</span>
+                        <div>
+                            <div style="color: var(--text-primary); font-weight: bold;">Track Dispatch</div>
+                            <div style="color: #94a3b8; font-size: 0.72rem; line-height: 1.3; margin-top: 2px;" id="wf-detail-2">GPS monitoring & no-show check</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="wf-step" id="wf-step-3" style="opacity: 0.4; transition: all 0.3s ease; display: flex; gap: 0.8rem; align-items: start; font-size: 0.8rem;">
+                        <span class="wf-bullet" style="color: var(--accent); font-weight: bold; background: rgba(0,240,255,0.05); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,240,255,0.1);">03</span>
+                        <div>
+                            <div style="color: var(--text-primary); font-weight: bold;">On-Site Install</div>
+                            <div style="color: #94a3b8; font-size: 0.72rem; line-height: 1.3; margin-top: 2px;" id="wf-detail-3">Executing structured deployment</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="wf-step" id="wf-step-4" style="opacity: 0.4; transition: all 0.3s ease; display: flex; gap: 0.8rem; align-items: start; font-size: 0.8rem;">
+                        <span class="wf-bullet" style="color: var(--accent); font-weight: bold; background: rgba(0,240,255,0.05); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,240,255,0.1);">04</span>
+                        <div>
+                            <div style="color: var(--text-primary); font-weight: bold;">Rigor Closeout</div>
+                            <div style="color: #94a3b8; font-size: 0.72rem; line-height: 1.3; margin-top: 2px;" id="wf-detail-4">Validating photos & cert tests</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Simulation Controls Overlay -->
+                <div id="sim-controls" style="position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 1.5rem 2rem; display: flex; align-items: center; gap: 1.5rem; z-index: 4; box-sizing: border-box;">
+                    <button id="sim-play-pause-btn" style="background: none; border: none; color: var(--accent); cursor: pointer; display: flex; align-items: center; outline: none; padding: 0;">
+                        <svg id="sim-play-icon" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <svg id="sim-pause-icon" viewBox="0 0 24 24" fill="currentColor" width="24" height="24" style="display: none;">
+                            <rect x="6" y="4" width="4" height="16"></rect>
+                            <rect x="14" y="4" width="4" height="16"></rect>
+                        </svg>
+                    </button>
+                    <!-- Progress Bar -->
+                    <div style="flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; position: relative; cursor: pointer;" id="sim-progress-bg">
+                        <div id="sim-progress-bar" style="position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--accent); border-radius: 3px; box-shadow: 0 0 10px var(--accent-glow);"></div>
+                    </div>
+                    <span id="sim-time" style="font-family: monospace; font-size: 0.9rem; color: var(--text-secondary);">00:00 / 01:00</span>
+                    <button id="sim-speed-btn" style="background: rgba(0, 240, 255, 0.1); border: 1px solid var(--accent); color: var(--accent); border-radius: 4px; padding: 3px 8px; font-family: monospace; font-size: 0.8rem; cursor: pointer; outline: none; transition: all 0.3s ease; box-shadow: 0 0 10px var(--accent-glow);">1.0x</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio / Recent Deployments Section -->
+    <section id="portfolio" class="container" style="padding: 6rem 0 3rem 0;">
+        <div class="section-header animate-up">
+            <span class="badge">Real-World Case Studies</span>
+            <h2>Proven Field Performance</h2>
+            <p>Direct reports and structured documentation from our recent site dispatches across premier field networks.</p>
+        </div>
+
+        <!-- Sourcing Platform & Work Order Filter Bar -->
+        <div class="platform-filter-bar animate-up delay-1">
+            <button class="platform-pill active" data-platform-filter="all">
+                <span>🌐 All Platforms</span>
+                <span class="pill-count">9 Dispatches</span>
+            </button>
+            <button class="platform-pill" data-platform-filter="fieldnation">
+                <span style="color: #ff9d42;">⚡ Field Nation</span>
+                <span class="pill-count">4 Orders</span>
+            </button>
+            <button class="platform-pill" data-platform-filter="workmarket">
+                <span style="color: #48cae4;">💼 WorkMarket</span>
+                <span class="pill-count">3 Orders</span>
+            </button>
+            <button class="platform-pill" data-platform-filter="cloudworkpro">
+                <span style="color: #c084fc;">☁️ CloudWorkPRO</span>
+                <span class="pill-count">2 Orders</span>
+            </button>
+        </div>
+
+        <div class="grid-3" id="portfolio-grid">
+            <!-- Project 1: Nike Factory Store WAN Restoration -->
+            <div class="card animate-up delay-1 portfolio-card" data-platform="cloudworkpro" style="display: flex; flex-direction: column; justify-content: space-between; background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 16px;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <span class="badge" style="background: rgba(0, 240, 255, 0.05); font-size: 0.8rem; border-color: rgba(0, 240, 255, 0.15); margin-bottom: 0;">INC8361358 • P3 Priority</span>
+                        <span class="badge badge-cwp" style="font-size: 0.75rem; margin-bottom: 0;">☁️ CloudWorkPRO SOW</span>
+                    </div>
+                    <h3 style="margin-top: 0.5rem; font-size: 1.5rem; color: var(--text-primary);">Nike Store Network Circuit Restoration</h3>
+                    <p style="font-size: 0.95rem; margin: 0.5rem 0 1.25rem 0; color: var(--text-secondary);">
+                        <strong style="color: var(--accent);">Location:</strong> Park City, UT &nbsp;|&nbsp; 
+                        <strong style="color: var(--accent);">On-Site Time:</strong> 3.07 Hours
+                    </p>
+                    <p style="font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; color: var(--text-secondary);">
+                        Dispatched under Smart Hands request for a critical "GE2 circuit down" event. Accessing the server room network rack, the technician troubleshot physical connection paths between a Cisco Catalyst 3650 switch and the Comcast Business Modem (CBR2-T), resolving the offline circuit.
+                    </p>
+                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Coordinated with Network Operations Center (NOC) & Edge L2 teams to isolate path failure.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Identified cabling fault: physical disconnection at switch port 10 from modem handoff interface.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Reconnected connection, verified line activity indication, and validated remote link status.</span>
+                        </li>
+                    </ul>
+
+                    <!-- Direct Platform Ticket Action -->
+                    <div style="margin-top: 1.5rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                        <button class="btn btn-outline" onclick="openDirectTicket('INC8361358')" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; border-color: var(--accent); color: var(--accent); display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; border-radius: 6px; background: rgba(0, 240, 255, 0.05);">
+                            <span>🎫 Direct Ticket Access</span>
+                        </button>
+                        <a href="https://app.cloudworkpro.com/workorders/INC8361358" target="_blank" rel="noopener noreferrer" style="font-size: 0.8rem; color: var(--text-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.45rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--text-primary)'" onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-secondary)'">
+                            <span>🔗 CloudWorkPRO ↗</span>
+                        </a>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-secondary);">STATUS: RESOLVED ONSITE</span>
+                    <span style="font-size: 0.85rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Systems & Networking</span>
+                </div>
+            </div>
+
+            <!-- Project 2: Cat6 Structured Cabling -->
+            <div class="card animate-up delay-2 portfolio-card" data-platform="workmarket" style="display: flex; flex-direction: column; justify-content: space-between; background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 16px;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <span class="badge" style="background: rgba(0, 240, 255, 0.05); font-size: 0.8rem; border-color: rgba(0, 240, 255, 0.15); margin-bottom: 0;">WO #19609199 • Cabling</span>
+                        <span class="badge badge-wm" style="font-size: 0.75rem; margin-bottom: 0;">💼 WorkMarket Cloud</span>
+                    </div>
+                    <h3 style="margin-top: 0.5rem; font-size: 1.5rem; color: var(--text-primary);">Structured Cat6 Low-Voltage Installation</h3>
+                    <p style="font-size: 0.95rem; margin: 0.5rem 0 1.25rem 0; color: var(--text-secondary);">
+                        <strong style="color: var(--accent);">Scope:</strong> 34 Drops (17 Dual Data) &nbsp;|&nbsp; 
+                        <strong style="color: var(--accent);">Infrastructure:</strong> Security & AP
+                    </p>
+                    <p style="font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; color: var(--text-secondary);">
+                        Executed structured cabling run across key office sections including Office/X-Ray transition, Pharmacy & Workstations, and Reception. Managed routing, clean bundling, documentation mapping, and pre-marking key camera and AP drop positions.
+                    </p>
+                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Installed thirty-four Cat6 home runs at seventeen dual-outlet positions with green-circle verification.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Mapped 4 IP camera drops (Green X) and 1 wireless AP access point (Orange X) on-site plan.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Structured neat rack dressing and prepared detailed markup schematics for client closeout report.</span>
+                        </li>
+                    </ul>
+                    <!-- Blueprint Floor Plan Visual -->
+                    <div style="margin-top: 1.5rem; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); background: #ffffff; position: relative; padding: 0.5rem;">
+                        <img src="assets/blueprint.png" alt="Marked Floor Plan - Current Installation Progress Blueprint" class="lightbox-img" style="width: 100%; height: auto; display: block; border-radius: 4px;">
+                    </div>
+
+                    <!-- Blueprint Markup Legend -->
+                    <div style="margin-top: 1rem; background: var(--bg-primary); border: 1px solid var(--border-color); padding: 1rem 1.25rem; border-radius: 8px;">
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; margin-bottom: 0.75rem;">Blueprint Markup Legend & Progress Key</div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; font-size: 0.85rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary);">
+                                <span style="color: #ff4d4d; font-weight: 900; font-size: 1rem;">✖</span>
+                                <span><strong style="color: var(--text-primary);">Red X:</strong> Two Cat6 Data Runs</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary);">
+                                <span style="display: inline-block; width: 10px; height: 10px; border: 2px solid #00f0ff; border-radius: 50%;"></span>
+                                <span><strong style="color: var(--text-primary);">Green Circle:</strong> Work Area</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary);">
+                                <span style="color: #00ff88; font-weight: 900; font-size: 1rem;">✖</span>
+                                <span><strong style="color: var(--text-primary);">Green X:</strong> Camera Location</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary);">
+                                <span style="color: #ffaa00; font-weight: 900; font-size: 1rem;">✖</span>
+                                <span><strong style="color: var(--text-primary);">Orange X:</strong> Wireless AP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- On-Site Field Documentation Photos -->
+                    <div style="margin-top: 1rem;">
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; margin-bottom: 0.75rem;">On-Site Installation Photo Evidence (Click to Expand)</div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 4/3; background: var(--bg-primary);">
+                                <img src="assets/cabling_photo_1.jpg" alt="Overhead J-Hook Pathway Routing" class="lightbox-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 4/3; background: var(--bg-primary);">
+                                <img src="assets/cabling_photo_2.jpg" alt="Drop Ceiling Perimeter Cable Run" class="lightbox-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 4/3; background: var(--bg-primary);">
+                                <img src="assets/cabling_photo_3.jpg" alt="Wall-Mounted NavePoint Cabinet & Feed" class="lightbox-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Platform Ticket Action -->
+                    <div style="margin-top: 1.5rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                        <button class="btn btn-outline" onclick="openDirectTicket('19609199')" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; border-color: var(--accent); color: var(--accent); display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; border-radius: 6px; background: rgba(0, 240, 255, 0.05);">
+                            <span>🎫 Direct Ticket Access</span>
+                        </button>
+                        <a href="https://app.workmarket.com/assignments/19609199" target="_blank" rel="noopener noreferrer" style="font-size: 0.8rem; color: var(--text-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.45rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--text-primary)'" onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-secondary)'">
+                            <span>🔗 WorkMarket ↗</span>
+                        </a>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-secondary);">STATUS: DELIVERED & APPROVED</span>
+                    <span style="font-size: 0.85rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Low-Voltage Cabling</span>
+                </div>
+            </div>
+
+            <!-- Project 3: 7-Eleven POS Cable Management -->
+            <div class="card animate-up delay-3 portfolio-card" data-platform="fieldnation" style="display: flex; flex-direction: column; justify-content: space-between; background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 16px;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <span class="badge" style="background: rgba(0, 240, 255, 0.05); font-size: 0.8rem; border-color: rgba(0, 240, 255, 0.15); margin-bottom: 0;">WO #19567699 • POS & Cabling</span>
+                        <span class="badge badge-fn" style="font-size: 0.75rem; margin-bottom: 0;">⚡ Field Nation Dispatched</span>
+                    </div>
+                    <h3 style="margin-top: 0.5rem; font-size: 1.5rem; color: var(--text-primary);">Front Office POS1 Cable Management</h3>
+                    <p style="font-size: 0.95rem; margin: 0.5rem 0 1.25rem 0; color: var(--text-secondary);">
+                        <strong style="color: var(--accent);">Client:</strong> 7-Eleven #23387 (NEC) &nbsp;|&nbsp; 
+                        <strong style="color: var(--accent);">Location:</strong> Murray, UT (14.3h Logged)
+                    </p>
+                    <p style="font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; color: var(--text-secondary);">
+                        Performed comprehensive low-voltage and POS1 cable cleanup beneath the front counter. Traced active leads, removed authorized legacy cabling, and dressed blue/white data runs into structured parallel bundles along the perimeter.
+                    </p>
+                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Traced active network/POS lines & safely removed abandoned cabling without downtime.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Consolidated loose data cables into clean, parallel perimeter bundles with secure retention points.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Preserved clear service access around electrical junction boxes, conduit, and POS terminal power.</span>
+                        </li>
+                    </ul>
+
+                    <!-- On-Site Execution & Completion Photo Evidence -->
+                    <div style="margin-top: 1.5rem;">
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">Front-Office POS1 & Power Receptacle Remediation (Click to Expand)</div>
+                        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/711_front_1.png" alt="Front Office POS Counter Baseline Overview" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/711_front_2.png" alt="POS Equipment Area, Bixolon & 7NOW Setup" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/711_front_3.png" alt="Front Office APC RIS UPS Audit & Labeling" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/711_front_4.png" alt="Power Outlet Receptacle Condition BEFORE Remediation" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/711_front_5.png" alt="Receptacle POST-INSTALL: RIS UPS PWR Tag & DO NOT USE Safety Plug" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                        </div>
+
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">Back-Office Infrastructure & Decom Audit (Click to Expand)</div>
+                        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem;">
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/711_photo_1.png" alt="Single-Tier Manager Desk & Aruba Rack Setup" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/711_photo_2.png" alt="Two-Tier Manager Desk & Clean Printer Setup" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/711_photo_3.png" alt="Chromebox VESA Mount & Patch Cable Dressing" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/711_photo_4.png" alt="Back-Office Aruba UPS Side-by-Side Setup" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/711_photo_5.png" alt="RIS UPS LCD Screen & Self-Test Audit" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Project Execution Protocol (Based on 7-Eleven RIS v2.5 Standard) -->
+                    <div style="margin-top: 1.5rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden;">
+                        <button onclick="const el = document.getElementById('sop-details-p3'); const arrow = document.getElementById('sop-arrow-p3'); if(el.style.display === 'none'){ el.style.display = 'block'; arrow.textContent = '▲'; } else { el.style.display = 'none'; arrow.textContent = '▼'; }" style="width: 100%; background: rgba(0, 240, 255, 0.05); border: none; padding: 0.85rem 1.25rem; color: var(--accent); font-family: var(--font-display); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; outline: none;">
+                            <span>7-Eleven RIS & Network SOP Execution (v2.5 Standard)</span>
+                            <span id="sop-arrow-p3" style="font-size: 0.9rem;">▼</span>
+                        </button>
+                        <div id="sop-details-p3" style="display: none; padding: 1.25rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">📍 Phase 1: Store Arrival & Audit (Checkpoints 1 & 2)</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>DST Check-In & Manager Briefing; Verified Store #23387 matching WO portal.</li>
+                                    <li>Inventory Audit of "HOLD FOR TECH" Kit (100x Velcro ties, 130x RJ45 covers, 25x USB caps).</li>
+                                    <li>Front/Back-Office Smart UPS Audit: Recorded Load %, Battery Life %, and initiated Self-Test on APC 750 / Tripp-Lite units.</li>
+                                    <li>Captured 360° baseline "BEFORE" photos (tangled cables, BB Modem location, manager's desk).</li>
+                                </ul>
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">🛠️ Phase 2: POS1 Counter & Perimeter Remediation (Checkpoint 3)</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Removed POS covers; inspected active I/O leads & eliminated dead-end USB/serial cabling.</li>
+                                    <li>Replaced zip ties with reusable Velcro straps; installed USB port caps on open Ingenico LANE 7000 pin pads.</li>
+                                    <li>Routed active POS peripherals (printer, scanner, cash drawer, CFD) through counter stand & grommet holes.</li>
+                                    <li>Secured 4-pack jacks to shelf inner walls with Scotch Double-Sided Tape & capped unused ports with RJ45 dust covers.</li>
+                                    <li>Dressed blue/white ethernet runs along counter perimeter; installed safety outlet plugs ("DO NOT USE" stickers) on open UPS receptacles.</li>
+                                </ul>
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">💻 Phase 3: Back-Office Infrastructure & Decom (Checkpoint 4)</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Identified Aruba 6200F CX Switches, 9004-LTE Gateways, and Meraki CRIND switch allocations.</li>
+                                    <li>VESA mounted Chromebox behind Acer monitor; dressed monitor cables to permit 360° swivel without tension.</li>
+                                    <li>Decommissioned legacy hardware: Removed Lockbox (code 5-11-5), EOL GOT/HHT mobile units, and Octopus serial cables.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">✅ Phase 4: DST Verification & Departure (Checkpoints 5 & 6)</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Uploaded 30+ photo-documented verification points to DST portal.</li>
+                                    <li>Boxed removed cables & left in back office for ITFM disposal.</li>
+                                    <li>Obtained Store Manager walkthrough sign-off & DST Check-Out Release Number.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Platform Ticket Action -->
+                    <div style="margin-top: 1.5rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                        <button class="btn btn-outline" onclick="openDirectTicket('19567699')" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; border-color: var(--accent); color: var(--accent); display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; border-radius: 6px; background: rgba(0, 240, 255, 0.05);">
+                            <span>🎫 Direct Ticket Access</span>
+                        </button>
+                        <a href="https://app.fieldnation.com/workorders/19567699" target="_blank" rel="noopener noreferrer" style="font-size: 0.8rem; color: var(--text-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.45rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--text-primary)'" onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-secondary)'">
+                            <span>🔗 Field Nation ↗</span>
+                        </a>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-secondary);">STATUS: PHOTO-DOCUMENTED</span>
+                    <span style="font-size: 0.85rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">POS & Retail Tech</span>
+                </div>
+            </div>
+
+            <!-- Project 4: Walmart Retail Remodel - Low-Voltage Paging Speaker & Rack Installation -->
+            <div class="card animate-up delay-4 portfolio-card" data-platform="fieldnation" style="display: flex; flex-direction: column; justify-content: space-between; background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 16px;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <span class="badge" style="background: rgba(0, 240, 255, 0.05); font-size: 0.8rem; border-color: rgba(0, 240, 255, 0.15); margin-bottom: 0;">WO #19712486 • Remodel & Paging</span>
+                        <span class="badge badge-fn" style="font-size: 0.75rem; margin-bottom: 0;">⚡ Field Nation Dispatched</span>
+                    </div>
+                    <h3 style="margin-top: 0.5rem; font-size: 1.5rem; color: var(--text-primary);">Walmart Store Expansion Paging & Rack Build</h3>
+                    <p style="font-size: 0.95rem; margin: 0.5rem 0 1.25rem 0; color: var(--text-secondary);">
+                        <strong style="color: var(--accent);">Site:</strong> Walmart #19712486 (Riverton, UT) &nbsp;|&nbsp; 
+                        <strong style="color: var(--accent);">Scope:</strong> Overhead Paging & Rack Build
+                    </p>
+                    <p style="font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; color: var(--text-secondary);">
+                        Executed low-voltage expansion cabling and overhead pendant paging speaker installation for a big-box retail remodel. Technicians operated scissor lifts in active construction zones to route ceiling cabling and integrate into the main communications rack.
+                    </p>
+                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Operated aerial scissor lifts for elevated access across open structural steel ceiling framing.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Mounted pendant paging speakers aligned for downward audio coverage with controlled drop service loops.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Routed speaker circuits to communications rack via Panduit cable managers & Vertiv PDU rack pathway.</span>
+                        </li>
+                    </ul>
+
+                    <!-- On-Site Execution Photo Evidence -->
+                    <div style="margin-top: 1.5rem;">
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">Walmart On-Site Field Documentation (Click to Expand)</div>
+                        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/wm_photo_1.jpg" alt="Wall-Mounted Communications Rack Cabinet Build & Cable Entry" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/wm_photo_2.jpg" alt="Installed Pendant Paging Speaker Downward Coverage" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/wm_photo_3.jpg" alt="Overhead Structure Speaker Suspension & Drop Service Slack" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/wm_photo_4.jpg" alt="Expansion Area Ceiling Pathway & Multiple Speaker Drops" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/wm_photo_5.jpg" alt="Aerial Scissor Lift Elevated Access in Remodel Zone" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Project Execution Protocol -->
+                    <div style="margin-top: 1.5rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden;">
+                        <button onclick="const el = document.getElementById('sop-details-p4'); const arrow = document.getElementById('sop-arrow-p4'); if(el.style.display === 'none'){ el.style.display = 'block'; arrow.textContent = '▲'; } else { el.style.display = 'none'; arrow.textContent = '▼'; }" style="width: 100%; background: rgba(0, 240, 255, 0.05); border: none; padding: 0.85rem 1.25rem; color: var(--accent); font-family: var(--font-display); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; outline: none;">
+                            <span>Walmart Remodel & Rack Integration SOP Breakdown</span>
+                            <span id="sop-arrow-p4" style="font-size: 0.9rem;">▼</span>
+                        </button>
+                        <div id="sop-details-p4" style="display: none; padding: 1.25rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">⚙️ Phase 1: Elevated Access & Overhead Routing</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Positioned scissor lifts in expansion zone, avoiding high-heat HVAC & fire protection lines.</li>
+                                    <li>Routed low-voltage speaker runs through overhead open steel structure with strain relief.</li>
+                                    <li>Prepared individual drops with controlled service slack for future servicing.</li>
+                                </ul>
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">🔊 Phase 2: Pendant Speaker Assembly & Alignment</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Suspended pendant speakers below open ceiling for downward retail coverage.</li>
+                                    <li>Checked vertical alignment, secure anchor support, and clearance from surrounding trades.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">🗄️ Phase 3: Rack Connection & Quality Inspection</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Brought speaker runs into communications rack through approved overhead top/side entry.</li>
+                                    <li>Dressed cabling into Panduit horizontal managers & Vertiv PDU rack pathway.</li>
+                                    <li>Verified circuit continuity, polarity, and executed visual quality-control checklist.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Platform Ticket Action -->
+                    <div style="margin-top: 1.5rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                        <button class="btn btn-outline" onclick="openDirectTicket('19712486')" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; border-color: var(--accent); color: var(--accent); display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; border-radius: 6px; background: rgba(0, 240, 255, 0.05);">
+                            <span>🎫 Direct Ticket Access</span>
+                        </button>
+                        <a href="https://app.fieldnation.com/workorders/19712486" target="_blank" rel="noopener noreferrer" style="font-size: 0.8rem; color: var(--text-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.45rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--text-primary)'" onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-secondary)'">
+                            <span>🔗 Field Nation ↗</span>
+                        </a>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-secondary);">STATUS: COMPLETED & VERIFIED</span>
+                    <span style="font-size: 0.85rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Commercial Audio / Paging</span>
+                </div>
+            </div>
+
+            <!-- Project 5: Fresenius Medical Care - Rack-Mount UPS & Network Management Integration -->
+            <div class="card animate-up delay-1 portfolio-card" data-platform="cloudworkpro" style="display: flex; flex-direction: column; justify-content: space-between; background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 16px;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <span class="badge" style="background: rgba(0, 240, 255, 0.05); font-size: 0.8rem; border-color: rgba(0, 240, 255, 0.15); margin-bottom: 0;">WO #19719768 • Healthcare IT & UPS</span>
+                        <span class="badge badge-cwp" style="font-size: 0.75rem; margin-bottom: 0;">☁️ CloudWorkPRO SOW</span>
+                    </div>
+                    <h3 style="margin-top: 0.5rem; font-size: 1.5rem; color: var(--text-primary);">Healthcare Rack-Mount UPS & Network Management Integration</h3>
+                    <p style="font-size: 0.95rem; margin: 0.5rem 0 1.25rem 0; color: var(--text-secondary);">
+                        <strong style="color: var(--accent);">Client:</strong> Fresenius Medical Care (Clinic 7432) &nbsp;|&nbsp; 
+                        <strong style="color: var(--accent);">Location:</strong> South Jordan, UT (3.09h Logged)
+                    </p>
+                    <p style="font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; color: var(--text-secondary);">
+                        Installed an APC Smart-UPS SMT1500RM2UC (S/N 0S2438L13257) in the lower communications rack, connected battery-backed power protection for Cisco 2911 router & Aruba switching, and established dedicated network management Ethernet monitoring on Aruba 6200F Port 11.
+                    </p>
+                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Rack-mounted APC 2U Smart-UPS, connected facility AC power, & restored battery backup to critical WAN router/switches.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Connected UPS network management Ethernet interface directly to Aruba 6200F Access Switch (Port 11) for remote monitoring.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Executed built-in UPS diagnostic self-test ("UPS Self Test: Passed") & verified active link status with zero clinic downtime.</span>
+                        </li>
+                    </ul>
+
+                    <!-- On-Site Execution Photo Evidence -->
+                    <div style="margin-top: 1.5rem;">
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">Fresenius Medical Care On-Site Photo Evidence (Click to Expand)</div>
+                        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/fresenius_photo_1.jpg" alt="APC Smart-UPS LCD Diagnostic Display: UPS Self Test: Passed" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/fresenius_photo_2.jpg" alt="Rack-Mounted APC SMT1500RM2UC and Eaton Backup Units" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/fresenius_photo_3.jpg" alt="Aruba 6200F Switch Port 11 Active UPS Management Link Indicator" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/fresenius_photo_4.jpg" alt="Fresenius Clinic Communications Rack Overview & Cabling" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/fresenius_photo_5.jpg" alt="Comcast Business Gateway, Aruba Networks, & Cisco Catalyst 2960 Stack" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Project Execution Protocol -->
+                    <div style="margin-top: 1.5rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden;">
+                        <button onclick="const el = document.getElementById('sop-details-p5'); const arrow = document.getElementById('sop-arrow-p5'); if(el.style.display === 'none'){ el.style.display = 'block'; arrow.textContent = '▲'; } else { el.style.display = 'none'; arrow.textContent = '▼'; }" style="width: 100%; background: rgba(0, 240, 255, 0.05); border: none; padding: 0.85rem 1.25rem; color: var(--accent); font-family: var(--font-display); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; outline: none;">
+                            <span>Fresenius Healthcare UPS Installation SOP Breakdown</span>
+                            <span id="sop-arrow-p5" style="font-size: 0.9rem;">▼</span>
+                        </button>
+                        <div id="sop-details-p5" style="display: none; padding: 1.25rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">📋 Step 1: Equipment Verification & Rack Mounting</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Verified APC Smart-UPS SMT1500RM2UC (S/N 0S2438L13257) & existing rack topology (`UT-7432-DL-SW3`).</li>
+                                    <li>Installed heavy 2U UPS chassis in lower rack section to maintain center-of-gravity stability.</li>
+                                </ul>
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">⚡ Step 2: Power Protection & Management Link</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Connected UPS input AC to facility utility power; restored protected battery backup power to Cisco 2911 & Comcast WAN modem.</li>
+                                    <li>Connected UPS network management Ethernet interface into Aruba 6200F Port 11 for SNMP/remote alert monitoring.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">✅ Step 3: Self-Test Validation & Ticket Closeout</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Executed front panel diagnostic self-test: Confirmed "UPS Self Test: Passed".</li>
+                                    <li>Validated active link illumination on Aruba Port 11 & zero clinic data interruption.</li>
+                                    <li>Uploaded photographic evidence package & completed Ovation / Fresenius ticket closeout.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Platform Ticket Action -->
+                    <div style="margin-top: 1.5rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                        <button class="btn btn-outline" onclick="openDirectTicket('19719768')" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; border-color: var(--accent); color: var(--accent); display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; border-radius: 6px; background: rgba(0, 240, 255, 0.05);">
+                            <span>🎫 Direct Ticket Access</span>
+                        </button>
+                        <a href="https://app.cloudworkpro.com/workorders/19719768" target="_blank" rel="noopener noreferrer" style="font-size: 0.8rem; color: var(--text-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.45rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--text-primary)'" onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-secondary)'">
+                            <span>🔗 CloudWorkPRO ↗</span>
+                        </a>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-secondary);">STATUS: SELF-TEST PASSED</span>
+                    <span style="font-size: 0.85rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Healthcare IT Infrastructure</span>
+                </div>
+            </div>
+
+            <!-- Project 6: Sally Beauty Retail SD-WAN Primary Link Remediation -->
+            <div class="card animate-up delay-2 portfolio-card" data-platform="workmarket" style="display: flex; flex-direction: column; justify-content: space-between; background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 16px;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <span class="badge" style="background: rgba(0, 240, 255, 0.05); font-size: 0.8rem; border-color: rgba(0, 240, 255, 0.15); margin-bottom: 0;">WO #19616374 • Retail SD-WAN & WAN Repair</span>
+                        <span class="badge badge-wm" style="font-size: 0.75rem; margin-bottom: 0;">💼 WorkMarket Cloud</span>
+                    </div>
+                    <h3 style="margin-top: 0.5rem; font-size: 1.5rem; color: var(--text-primary);">Sally Beauty Primary WAN Link Remediation</h3>
+                    <p style="font-size: 0.95rem; margin: 0.5rem 0 1.25rem 0; color: var(--text-secondary);">
+                        <strong style="color: var(--accent);">Client:</strong> Sally Beauty (Store SB010159) &nbsp;|&nbsp; 
+                        <strong style="color: var(--accent);">Scope:</strong> Physical WAN Cable Handoff Repair
+                    </p>
+                    <p style="font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; color: var(--text-secondary);">
+                        Dispatched to resolve an emergency primary network link outage. Traced the failed WAN path, routed a new Cat5e patch cable along the under-counter perimeter pathway, and established direct physical handoff from Comcast Business Gateway (LAN Port 2) to VeloCloud Edge SD-WAN (GE3 Port).
+                    </p>
+                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Inspected rack-mounted VeloCloud Edge (S/N VC05100151781) & Comcast Business gateway handoff port.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Ran Cat5e patch cable along upper wall/under-counter pathway, securing with cable clips & strain relief.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Connected Comcast LAN Port 2 → VeloCloud GE3 WAN, re-establishing primary circuit link & tunnel status.</span>
+                        </li>
+                    </ul>
+
+                    <!-- On-Site Execution Photo Evidence -->
+                    <div style="margin-top: 1.5rem;">
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">Sally Beauty Network Remediation Documentation (Click to Expand)</div>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/sally_rack.jpg" alt="VeloCloud SD-WAN Edge Appliance & Network Rack Overview" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/sally_handoff.jpg" alt="Comcast Business Gateway LAN Port 2 to VeloCloud GE3 WAN Handoff Connection" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Project Execution Protocol -->
+                    <div style="margin-top: 1.5rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden;">
+                        <button onclick="const el = document.getElementById('sop-details-p6'); const arrow = document.getElementById('sop-arrow-p6'); if(el.style.display === 'none'){ el.style.display = 'block'; arrow.textContent = '▲'; } else { el.style.display = 'none'; arrow.textContent = '▼'; }" style="width: 100%; background: rgba(0, 240, 255, 0.05); border: none; padding: 0.85rem 1.25rem; color: var(--accent); font-family: var(--font-display); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; outline: none;">
+                            <span>Sally Beauty SD-WAN Remediation SOP Breakdown</span>
+                            <span id="sop-arrow-p6" style="font-size: 0.9rem;">▼</span>
+                        </button>
+                        <div id="sop-details-p6" style="display: none; padding: 1.25rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">🔍 Step 1: On-Site Audit & Handoff Identification</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Located site ID label (`SB010159`) and VeloCloud SD-WAN appliance (Serial: `VC05100151781`).</li>
+                                    <li>Identified Comcast Business modem LAN Port 2 as designated active WAN handoff.</li>
+                                </ul>
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">🛠️ Step 2: Under-Counter Cable Routing & Port Connection</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Ran new Ethernet cable along upper wall/under-counter pathway using wall clips.</li>
+                                    <li>Connected Comcast LAN Port 2 directly into VeloCloud GE3 WAN port with strain relief.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">✅ Step 3: Link Verification & Closeout</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Verified LED status illumination on VeloCloud GE3 & Comcast modem.</li>
+                                    <li>Confirmed DIGI LTE backup, Cisco switch, and UPS remained active during link restoration.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Platform Ticket Action -->
+                    <div style="margin-top: 1.5rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                        <button class="btn btn-outline" onclick="openDirectTicket('19616374')" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; border-color: var(--accent); color: var(--accent); display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; border-radius: 6px; background: rgba(0, 240, 255, 0.05);">
+                            <span>🎫 Direct Ticket Access</span>
+                        </button>
+                        <a href="https://app.workmarket.com/assignments/19616374" target="_blank" rel="noopener noreferrer" style="font-size: 0.8rem; color: var(--text-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.45rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--text-primary)'" onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-secondary)'">
+                            <span>🔗 WorkMarket ↗</span>
+                        </a>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-secondary);">STATUS: WAN RESTORED</span>
+                    <span style="font-size: 0.85rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Retail SD-WAN Repair</span>
+                </div>
+            </div>
+
+            <!-- Project 7: HP ZBook Fury 16 Mobile Workstation Cooling System Break/Fix -->
+            <div class="card animate-up delay-3 portfolio-card" data-platform="workmarket" style="display: flex; flex-direction: column; justify-content: space-between; background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 16px;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: gap: 0.5rem;">
+                        <span class="badge" style="background: rgba(0, 240, 255, 0.05); font-size: 0.8rem; border-color: rgba(0, 240, 255, 0.15); margin-bottom: 0;">Case #5162781598 • Endpoint Break/Fix</span>
+                        <span class="badge badge-wm" style="font-size: 0.75rem; margin-bottom: 0;">💼 WorkMarket Cloud</span>
+                    </div>
+                    <h3 style="margin-top: 0.5rem; font-size: 1.5rem; color: var(--text-primary);">HP ZBook Fury 16 Workstation Cooling Break/Fix</h3>
+                    <p style="font-size: 0.95rem; margin: 0.5rem 0 1.25rem 0; color: var(--text-secondary);">
+                        <strong style="color: var(--accent);">Device:</strong> HP ZBook Fury 16 Mobile Workstation &nbsp;|&nbsp; 
+                        <strong style="color: var(--accent);">Serial:</strong> 2MQ5520KRB (Aug 7, 2026)
+                    </p>
+                    <p style="font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; color: var(--text-secondary);">
+                        Performed component-level teardown and cooling fan assembly replacement on an enterprise 16-inch workstation. Isolated internal battery, replaced Delta fan module, cleared thermal exhaust paths, and validated hardware integrity using HP PC Hardware Diagnostics UEFI.
+                    </p>
+                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>ESD-safe disassembly, battery power isolation, & bottom enclosure / internal ducting removal.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Replaced thermal fan assembly, routed fan leads away from rotating blades, & cleared heat-sink fins.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Executed HP PC Hardware Diagnostics UEFI: System Board, 63.4 GB RAM, Video, Audio, USB, & Component Test PASSED (Pass ID: 25856-14610-00456).</span>
+                        </li>
+                    </ul>
+
+                    <!-- On-Site Execution Photo Evidence -->
+                    <div style="margin-top: 1.5rem;">
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">HP Workstation Hardware Repair Evidence (Click to Expand)</div>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/hp_chassis.jpg" alt="HP ZBook Fury 16 Workstation Open Chassis Teardown & Cooling Fan Replacement" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/hp_uefi.jpg" alt="HP PC Hardware Diagnostics UEFI Screen Displaying Overall Diagnostic PASSED" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Project Execution Protocol -->
+                    <div style="margin-top: 1.5rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden;">
+                        <button onclick="const el = document.getElementById('sop-details-p7'); const arrow = document.getElementById('sop-arrow-p7'); if(el.style.display === 'none'){ el.style.display = 'block'; arrow.textContent = '▲'; } else { el.style.display = 'none'; arrow.textContent = '▼'; }" style="width: 100%; background: rgba(0, 240, 255, 0.05); border: none; padding: 0.85rem 1.25rem; color: var(--accent); font-family: var(--font-display); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; outline: none;">
+                            <span>HP ZBook Workstation Repair SOP Breakdown</span>
+                            <span id="sop-arrow-p7" style="font-size: 0.9rem;">▼</span>
+                        </button>
+                        <div id="sop-details-p7" style="display: none; padding: 1.25rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">💻 Step 1: Chassis Teardown & Power Isolation</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Shut down workstation, removed AC power, and set unit on ESD-grounded work surface.</li>
+                                    <li>Unscrewed bottom cover clips, exposed system board, and disconnected internal battery connector.</li>
+                                </ul>
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">🌀 Step 2: Cooling Fan Replacement & Ducting Reassembly</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Removed internal ducting/frame, unseated defective fan, and landed replacement Delta fan unit.</li>
+                                    <li>Checked fan lead routing clear of rotating blades and screw bosses; reassembled chassis.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">📊 Step 3: UEFI Hardware Diagnostics Verification</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Powered on unit to POST and launched HP PC Hardware Diagnostics UEFI (v2.3.8.0).</li>
+                                    <li>Recorded diagnostic results: System Board, PCI Read Device, 63.4 GB RAM, Video, Audio, USB, & Component Test ALL PASSED (Pass ID: `25856-14610-00456`).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Platform Ticket Action -->
+                    <div style="margin-top: 1.5rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                        <button class="btn btn-outline" onclick="openDirectTicket('5162781598')" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; border-color: var(--accent); color: var(--accent); display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; border-radius: 6px; background: rgba(0, 240, 255, 0.05);">
+                            <span>🎫 Direct Ticket Access</span>
+                        </button>
+                        <a href="https://app.workmarket.com/assignments/5162781598" target="_blank" rel="noopener noreferrer" style="font-size: 0.8rem; color: var(--text-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.45rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--text-primary)'" onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-secondary)'">
+                            <span>🔗 WorkMarket ↗</span>
+                        </a>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-secondary);">STATUS: UEFI DIAGNOSTICS PASSED</span>
+                    <span style="font-size: 0.85rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Endpoint Hardware Repair</span>
+                </div>
+            </div>
+
+            <!-- Project 8: Nike Factory Store NPOS CFD & iPORT Power Repair -->
+            <div class="card animate-up delay-4 portfolio-card" data-platform="fieldnation" style="display: flex; flex-direction: column; justify-content: space-between; background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 16px;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <span class="badge" style="background: rgba(0, 240, 255, 0.05); font-size: 0.8rem; border-color: rgba(0, 240, 255, 0.15); margin-bottom: 0;">WO #19763433 • Nike Retail NPOS & iPORT</span>
+                        <span class="badge badge-fn" style="font-size: 0.75rem; margin-bottom: 0;">⚡ Field Nation Dispatched</span>
+                    </div>
+                    <h3 style="margin-top: 0.5rem; font-size: 1.5rem; color: var(--text-primary);">Nike NPOS Customer Display & iPORT Power Repair</h3>
+                    <p style="font-size: 0.95rem; margin: 0.5rem 0 1.25rem 0; color: var(--text-secondary);">
+                        <strong style="color: var(--accent);">Client:</strong> Nike Factory Store - Lehi (Store 317) &nbsp;|&nbsp; 
+                        <strong style="color: var(--accent);">Scope:</strong> NPOS CFD Charging & iPORT Power Restoration
+                    </p>
+                    <p style="font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; color: var(--text-secondary);">
+                        Troubleshot an unpowered RG004 NPOS Customer-Facing Display (CFD) iPad at the checkout station. Traced counter power delivery, identified an unseated pin-style iPORT power connector, isolated low-voltage power, reseated connection, and rebooted the CFD iPad to restore accessory charging and wired Ethernet connectivity.
+                    </p>
+                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Inspected NPOS counter station, verified Eaton surge protector AC power & iPORT power delivery.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Isolated power, firmly reseated pin-style iPORT power connector, & rebooted customer-facing iPad/CFD assembly.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Verified "Accessory Connected" notification, battery charging recovery (2% → 20%), & USB 10/100 LAN DHCP IP (10.149.72.87 / 10.149.72.95).</span>
+                        </li>
+                    </ul>
+
+                    <!-- On-Site Execution Photo Evidence -->
+                    <div style="margin-top: 1.5rem;">
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">Nike Store NPOS Field Photo Evidence from WO #19763433 PDF (Click to Expand)</div>
+                        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/nike_actual_1.jpg" alt="iPORT / Power Connection & Reseated Pin Interface (WO #19763433 PDF Page 3)" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/nike_actual_3.jpg" alt="Powered Eaton Surge Protector (WO #19763433 PDF Page 3)" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/nike_actual_5.jpg" alt="CFD Charging Verification Screen: Accessory Connected 10:05 (WO #19763433 PDF Page 3)" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/nike_actual_6.jpg" alt="NPOS Station / iPORT Hardware Overview (WO #19763433 PDF Page 4)" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/nike_actual_8.jpg" alt="Ethernet DHCP Verification: USB 10/100 LAN 10.149.72.87 (WO #19763433 PDF Page 4)" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Project Execution Protocol -->
+                    <div style="margin-top: 1.5rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden;">
+                        <button onclick="const el = document.getElementById('sop-details-p8'); const arrow = document.getElementById('sop-arrow-p8'); if(el.style.display === 'none'){ el.style.display = 'block'; arrow.textContent = '▲'; } else { el.style.display = 'none'; arrow.textContent = '▼'; }" style="width: 100%; background: rgba(0, 240, 255, 0.05); border: none; padding: 0.85rem 1.25rem; color: var(--accent); font-family: var(--font-display); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; outline: none;">
+                            <span>Nike NPOS CFD & iPORT Repair SOP Breakdown</span>
+                            <span id="sop-arrow-p8" style="font-size: 0.9rem;">▼</span>
+                        </button>
+                        <div id="sop-details-p8" style="display: none; padding: 1.25rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">⚡ Step 1: Counter Station Power Path Diagnosis</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Verified Eaton surge protector AC power and traced low-voltage iPORT power feed under NPOS counter.</li>
+                                    <li>Diagnosed unseated pin connection preventing power flow to the iPORT charging/Ethernet accessory interface.</li>
+                                </ul>
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">🔌 Step 2: Pin Connector Reseat & Hardware Reboot</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Isolated low-voltage power before manipulating connector; inspected pin header and re-engaged connection firmly.</li>
+                                    <li>Restored power and performed a hard power cycle/reboot on the customer-facing iPad assembly.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">✅ Step 3: Charging & Network Verification</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Confirmed iPad recognized iPORT accessory ("Accessory Connected" alert) and battery recovered to 20%+.</li>
+                                    <li>Verified iPad Ethernet settings acquired valid DHCP lease on `10.149.72.0/24` network with gateway `10.149.72.1`.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Platform Ticket Action -->
+                    <div style="margin-top: 1.5rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                        <button class="btn btn-outline" onclick="openDirectTicket('19763433')" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; border-color: var(--accent); color: var(--accent); display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; border-radius: 6px; background: rgba(0, 240, 255, 0.05);">
+                            <span>🎫 Direct Ticket Access</span>
+                        </button>
+                        <a href="https://app.fieldnation.com/workorders/19763433" target="_blank" rel="noopener noreferrer" style="font-size: 0.8rem; color: var(--text-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.45rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--text-primary)'" onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-secondary)'">
+                            <span>🔗 Field Nation ↗</span>
+                        </a>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-secondary);">STATUS: CHARGING & ETHERNET RESTORED</span>
+                    <span style="font-size: 0.85rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Retail POS & iPORT Repair</span>
+                </div>
+            </div>
+
+            <!-- Project 9: Nike Factory Store #287 Switch Stack Port Migration & Smart Hands -->
+            <div class="card animate-up delay-1 portfolio-card" data-platform="fieldnation" style="display: flex; flex-direction: column; justify-content: space-between; background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 16px;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <span class="badge" style="background: rgba(0, 240, 255, 0.05); font-size: 0.8rem; border-color: rgba(0, 240, 255, 0.15); margin-bottom: 0;">WO #19844087 • P5 Smart Hands</span>
+                        <span class="badge badge-fn" style="font-size: 0.75rem; margin-bottom: 0;">⚡ Field Nation Dispatched</span>
+                    </div>
+                    <h3 style="margin-top: 0.5rem; font-size: 1.5rem; color: var(--text-primary);">Nike Store #287 Switch Stack Cable Mapping & Migration</h3>
+                    <p style="font-size: 0.95rem; margin: 0.5rem 0 1.25rem 0; color: var(--text-secondary);">
+                        <strong style="color: var(--accent);">Location:</strong> Farmington, UT (Nike Store #287) &nbsp;|&nbsp; 
+                        <strong style="color: var(--accent);">Device:</strong> NNR0287X01 Cisco Catalyst 3650 Stack
+                    </p>
+                    <p style="font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; color: var(--text-secondary);">
+                        Dispatched under Smart Hands request for incident INC8912608 (Switch stack port-down). Performed comprehensive 1-to-1 physical cable tracing, port labeling (e.g., ports 1, 5, 6, 20, 33, 44W, G1 green uplink, port 41 purple fiber), and constructed an accurate 48-port logical migration map to eliminate outage risk during upcoming switch replacement.
+                    </p>
+                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Inspected server rack, Cisco Catalyst 3650 switch stack, dual Palo Alto ION 1200-S security gateways, & ExacqVision surveillance.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Applied physical port labels to all Switch 2 production circuits, preserving 1-to-1 mapping reference for zero-downtime cutover.</span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span style="color: var(--accent); font-weight: bold;">✔</span>
+                            <span>Documented fiber/SFP special uplink connections (G1 & Port 41) & delivered complete 48-port migration schematic to Nike Operation Center (OC).</span>
+                        </li>
+                    </ul>
+
+                    <!-- On-Site Execution Photo Evidence & Migration Diagram -->
+                    <div style="margin-top: 1.5rem;">
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">Nike Store #287 Field Evidence & Migration Map (Click to Expand)</div>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/nike287_actual_1.jpg" alt="Figure 1: Full Server Room Network Rack Overview (WO #19844087)" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/nike287_actual_2.jpg" alt="Figure 2: Cisco Switching Area & Stacked Palo Alto ION 1200-S Gateways" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: var(--bg-primary); display: flex; align-items: center; justify-content: center;">
+                                <img src="assets/nike287_actual_3.jpg" alt="Figure 3: Close-up of Switch 2 Cabling & Visible Port Labels" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1/1; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 4px;">
+                                <img src="assets/nike287_migration_diagram.png" alt="Switch 2 Logical 48-Port Migration Diagram (Old Switch 2 to New Switch 2)" class="lightbox-img" onclick="openLightbox(this.src)" style="width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Project Execution Protocol -->
+                    <div style="margin-top: 1.5rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden;">
+                        <button onclick="const el = document.getElementById('sop-details-p9'); const arrow = document.getElementById('sop-arrow-p9'); if(el.style.display === 'none'){ el.style.display = 'block'; arrow.textContent = '▲'; } else { el.style.display = 'none'; arrow.textContent = '▼'; }" style="width: 100%; background: rgba(0, 240, 255, 0.05); border: none; padding: 0.85rem 1.25rem; color: var(--accent); font-family: var(--font-display); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; outline: none;">
+                            <span>Nike Store #287 Switch Stack Migration SOP Breakdown</span>
+                            <span id="sop-arrow-p9" style="font-size: 0.9rem;">▼</span>
+                        </button>
+                        <div id="sop-details-p9" style="display: none; padding: 1.25rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">📍 Phase 1: Site Inspection & Device Audit</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Accessed Farmington server room, confirmed incident INC8912608 and target device `NNR0287X01`.</li>
+                                    <li>Audited rack infrastructure: Cisco Catalyst 3650 48-port switch stack, copper patch panels, Palo Alto ION 1200-S units, & ExacqVision surveillance.</li>
+                                </ul>
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">🏷️ Phase 2: Cable Tracing & Port-Mapping Labeling</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Traced all Switch 2 production patch cables and applied visible port labels (1, 5, 6, 20, 33, 44W).</li>
+                                    <li>Isolated fiber/SFP uplinks (Port 41 purple fiber, G1 green cable) for special Nike OC migration handling.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong style="color: var(--text-primary); font-size: 0.88rem;">✅ Phase 3: Migration Diagram & Documentation Hand-Off</strong>
+                                <ul style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                                    <li>Constructed 48-port logical migration map (`Old Switch 2 Port -> Labeled Cable -> New Switch 2 Port`).</li>
+                                    <li>Submitted full photographic proof and documentation report to `Lst-TechOps.OC.engineers@nike.com`.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Platform Ticket Action -->
+                    <div style="margin-top: 1.5rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                        <button class="btn btn-outline" onclick="openDirectTicket('19844087')" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; border-color: var(--accent); color: var(--accent); display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; border-radius: 6px; background: rgba(0, 240, 255, 0.05);">
+                            <span>🎫 Direct Ticket Access</span>
+                        </button>
+                        <a href="https://app.fieldnation.com/workorders/19844087" target="_blank" rel="noopener noreferrer" style="font-size: 0.8rem; color: var(--text-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.45rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--text-primary)'" onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-secondary)'">
+                            <span>🔗 Field Nation ↗</span>
+                        </a>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-secondary);">STATUS: LABELED & MIGRATION READY</span>
+                    <span style="font-size: 0.85rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Smart Hands & Switch Migration</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Field Nation Live Job Radar & Marketplace Dispatch Access -->
+    <section id="fn-jobs" class="fn-radar-section">
+        <div class="fn-radar-container">
+            <div class="section-header animate-up" style="text-align: center; margin-bottom: 2.5rem;">
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255, 122, 0, 0.12); border: 1px solid rgba(255, 122, 0, 0.35); padding: 0.4rem 1rem; border-radius: 50px; margin-bottom: 1rem;">
+                    <span style="width: 8px; height: 8px; border-radius: 50%; background: #ff7a00; box-shadow: 0 0 10px #ff7a00;"></span>
+                    <span style="color: #ff9d42; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Field Nation Marketplace Radar</span>
+                </div>
+                <h2>Live Available Field Nation Jobs</h2>
+                <p style="max-width: 760px; margin: 0 auto; color: var(--text-secondary); font-size: 1.05rem; line-height: 1.6;">
+                    Directly browse, filter, and request available work orders across Utah and the Intermountain region. Connect your Field Nation account or launch deep-linked marketplace search with 1-click.
+                </p>
+            </div>
+
+            <!-- Field Nation Search & Control Bar -->
+            <div class="fn-control-panel animate-up delay-1">
+                <div class="fn-search-bar-row">
+                    <div class="fn-search-input-wrapper">
+                        <svg class="fn-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" id="fn-search-input" placeholder="Search by keyword, retail chain, scope (e.g., Cat6, Cisco, POS, UPS, Fluke)..." oninput="filterFnJobs()">
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="launchFnMarketplaceSearch()" style="background: linear-gradient(135deg, #ff7a00 0%, #ff5500 100%); border: none; padding: 0.85rem 1.4rem; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+                            <span>🚀 Search on Field Nation ↗</span>
+                        </button>
+                        <button class="btn btn-outline" onclick="openFnApiModal()" style="border-color: rgba(255,122,0,0.4); color: #ff9d42; padding: 0.85rem 1.2rem; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,122,0,0.05);">
+                            <span>⚙️ API & Webhook Sync</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters Row -->
+                <div class="fn-filters-row">
+                    <div class="fn-filter-group">
+                        <select id="fn-category-filter" class="fn-select" onchange="filterFnJobs()">
+                            <option value="all">All Service Categories</option>
+                            <option value="cabling">Cat6 & Fiber Structured Cabling</option>
+                            <option value="networking">Smart Hands & Switch Stacks</option>
+                            <option value="pos">Retail POS & Peripherals</option>
+                            <option value="audio">Commercial Audio / Paging</option>
+                            <option value="power">UPS Power & Racking</option>
+                        </select>
+
+                        <select id="fn-radius-filter" class="fn-select" onchange="filterFnJobs()">
+                            <option value="all">Any Distance (Utah)</option>
+                            <option value="15">Within 15 miles (SLC Metro)</option>
+                            <option value="30">Within 30 miles (Wasatch Front)</option>
+                            <option value="60">Within 60 miles (Extended UT)</option>
+                        </select>
+
+                        <select id="fn-rate-filter" class="fn-select" onchange="filterFnJobs()">
+                            <option value="0">Any Payout Rate</option>
+                            <option value="60">$60+/hr or $200+ Fixed</option>
+                            <option value="75">$75+/hr or $500+ Fixed</option>
+                            <option value="100">$100+/hr or $1,000+ Fixed</option>
+                        </select>
+                    </div>
+
+                    <div style="font-size: 0.82rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.4rem;">
+                        <span id="fn-jobs-count" style="font-weight: 700; color: #ff9d42;">6 Work Orders</span> Available in Region
+                    </div>
+                </div>
+            </div>
+
+            <!-- Available Jobs Cards Grid -->
+            <div class="fn-jobs-grid animate-up delay-2" id="fn-jobs-grid">
+                <!-- Dynamically populated by script.js -->
+            </div>
+
+            <!-- Direct Platform Navigation Footer Bar -->
+            <div style="margin-top: 3rem; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;" class="animate-up delay-3">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="font-size: 2rem;">⚡</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.05rem; color: var(--text-primary);">Need Full Provider Portal Access?</h4>
+                        <p style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: var(--text-secondary);">Directly manage your assigned work orders, counter-offers, and deliverables on Field Nation.</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                    <a href="https://app.fieldnation.com/workorders/" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="border-color: #ff9d42; color: #ff9d42; font-size: 0.85rem; padding: 0.6rem 1.1rem; text-decoration: none;">
+                        <span>My FN Work Orders ↗</span>
+                    </a>
+                    <a href="https://app.fieldnation.com/marketplace/search" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="background: #ff7a00; border: none; font-size: 0.85rem; padding: 0.6rem 1.2rem; text-decoration: none;">
+                        <span>Browse FN Marketplace ↗</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Field Nation API Sync & Connector Modal -->
+    <div id="fn-api-modal" class="direct-modal" style="display: none;">
+        <div class="direct-modal-backdrop" onclick="closeFnApiModal()"></div>
+        <div class="direct-modal-content" style="max-width: 680px;">
+            <div class="direct-modal-header">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <span class="badge badge-fn">⚡ API Integration</span>
+                    <h3 style="margin: 0; font-size: 1.25rem; color: var(--text-primary);">Field Nation API & Webhook Connector</h3>
+                </div>
+                <button class="direct-modal-close" onclick="closeFnApiModal()" title="Close">&times;</button>
+            </div>
+            <div style="padding: 2rem; overflow-y: auto;">
+                <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+                    Connect your website directly to Field Nation's REST API to automatically stream live published work orders, receive instant webhook dispatch alerts, and sync completed deliverables.
+                </p>
+
+                <div style="background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 0.9rem; color: #ff9d42; margin-bottom: 0.75rem;">How to get your Field Nation API credentials:</h4>
+                    <ol style="padding-left: 1.2rem; margin: 0; font-size: 0.84rem; line-height: 1.7; color: var(--text-secondary);">
+                        <li>Log into your Field Nation Provider or Buyer account at <a href="https://app.fieldnation.com" target="_blank" style="color: var(--accent);">app.fieldnation.com</a>.</li>
+                        <li>Navigate to <strong>Company Settings &rarr; Developer &rarr; API Tokens</strong> (or visit <a href="https://app.fieldnation.com/developer/" target="_blank" style="color: var(--accent);">app.fieldnation.com/developer</a>).</li>
+                        <li>Generate a <strong>Personal Access Token</strong> or OAuth 2.0 Client credentials with <code style="color: #ff9d42; background: rgba(0,0,0,0.3); padding: 2px 5px; border-radius: 4px;">workorders:read</code> permission.</li>
+                        <li>Paste your token below to activate live sync.</li>
+                    </ol>
+                </div>
+
+                <form id="fn-api-form" onsubmit="saveFnApiConfig(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div>
+                        <label style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); display: block; margin-bottom: 0.4rem;">Field Nation API Token / Key</label>
+                        <input type="password" id="fn-api-token" placeholder="fn_pat_live_xxxxxxxxxxxxxxxxxxxxxxxx" style="width: 100%; padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-primary); color: white; font-family: monospace; font-size: 0.88rem; outline: none;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); display: block; margin-bottom: 0.4rem;">Provider Dispatch Zip Code</label>
+                        <input type="text" id="fn-api-zip" value="84101" placeholder="84101 (Salt Lake City)" style="width: 100%; padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-primary); color: white; font-family: var(--font-sans); font-size: 0.88rem; outline: none;">
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                        <span id="fn-api-status" style="font-size: 0.82rem; color: #4ade80; display: inline-flex; align-items: center; gap: 0.4rem;">
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: #4ade80;"></span>
+                            Simulated Demo Feed Active
+                        </span>
+                        <button type="submit" class="btn btn-primary" style="background: #ff7a00; border: none; padding: 0.75rem 1.5rem; font-size: 0.88rem;">
+                            Test & Connect API
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <section id="metrics" class="industries-section" style="padding: 6rem 0;">
+        <div class="container">
+            <div class="section-header animate-up">
+                <span class="badge">Operational Rigor</span>
+                <h2>Engineered for On-Site Success</h2>
+                <p>We eliminate typical field tech failures (no-shows, missing photos, failed tests) with systematic control.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; margin-top: 2rem;">
+                <div class="card animate-up delay-1" style="padding: 2rem; background: var(--bg-primary);">
+                    <h3 style="color: var(--accent); display: flex; align-items: center; gap: 0.5rem; font-size: 1.25rem;">
+                        <span>📷</span> Complete Deliverables
+                    </h3>
+                    <p style="font-size: 0.95rem; line-height: 1.5; margin-top: 0.5rem;">No ticket is checked out without comprehensive photo proof of all components, cables labelled properly, and a signed digital work order.</p>
+                </div>
+                <div class="card animate-up delay-2" style="padding: 2rem; background: var(--bg-primary);">
+                    <h3 style="color: var(--accent); display: flex; align-items: center; gap: 0.5rem; font-size: 1.25rem;">
+                        <span>⚡</span> Fluke Certifications
+                    </h3>
+                    <p style="font-size: 0.95rem; line-height: 1.5; margin-top: 0.5rem;">Our cabling dispatches feature certified tests using calibrated Fluke DSX testing units. We supply full trace printouts showing exact dB loss and cross-talk metrics.</p>
+                </div>
+                <div class="card animate-up delay-3" style="padding: 2rem; background: var(--bg-primary);">
+                    <h3 style="color: var(--accent); display: flex; align-items: center; gap: 0.5rem; font-size: 1.25rem;">
+                        <span>🛡️</span> Insured & Drug-Free
+                    </h3>
+                    <p style="font-size: 0.95rem; line-height: 1.5; margin-top: 0.5rem;">Every technician is backed by $2M general liability coverage. Techs undergo rigorous background checking and regular drug screens to ensure professional on-site conduct.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="container">
+        <div style="display: flex; flex-wrap: wrap; gap: 4rem; align-items: center;">
+            <div style="flex: 1; min-width: 300px;" class="animate-up">
+                <span class="badge">Platform Integrations</span>
+                <h2 style="margin-top: 1rem;">Direct Contracts & Platform Dispatch</h2>
+                <p style="margin-bottom: 1.5rem; line-height: 1.6;">Whether you are an enterprise client who wants to sign a direct Master Services Agreement (MSA) or a network service provider looking to source elite field teams on **FieldNation** and **WorkMarket**, NomadIT fits seamlessly into your operations.</p>
+                <p style="line-height: 1.6; margin-bottom: 2rem; color: var(--text-secondary);">We manage dispatch, handle closeout verification, and guarantee that what gets installed matches your network diagrams perfectly. Our technicians check-in via mobile, communicate updates in real-time, and respect local retail management rules.</p>
+                <a href="assessment.html" class="btn btn-primary">Request a Site Deployment</a>
+            </div>
+            <div style="flex: 1; min-width: 300px;" class="animate-up delay-1">
+                <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 3rem; border-radius: 16px; position: relative;">
+                    <div style="font-size: 4rem; color: var(--accent); opacity: 0.15; position: absolute; top: 1rem; left: 2rem; font-family: Georgia, serif;">“</div>
+                    <p style="font-style: italic; font-size: 1.15rem; line-height: 1.7; position: relative; z-index: 1;">"NomadIT handled the low-voltage cabling and POS rollout for our 45 retail stores. The technicians completed all Fluke certifications, checked in on-time, and worked overnight to prevent store downtime. The closeout photos were impeccable."</p>
+                    <h4 style="margin-top: 1.5rem; color: var(--accent);">— Director of Store Operations</h4>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Midwest Apparel Group</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section id="contact" class="cta-section">
+        <div class="container animate-up">
+            <h2 style="margin-bottom: 1.5rem;">Need On-Site Field Engineering?</h2>
+            <p style="max-width: 600px; margin: 0 auto 2.5rem;">Schedule an on-site installation, structured cabling run, or POS rollout. Use our dispatch estimator to get pricing in seconds.</p>
+            <a href="assessment.html" class="btn btn-primary" id="cta-bottom-btn">Get Dispatch Estimate</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo-container">
+                    <span class="logo-text">NomadIT</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#home">Home</a>
+                    <a href="#services">Services</a>
+                    <a href="#packages">Dispatch Tiers</a>
+                    <a href="assessment.html">Instant Estimator</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 NomadIT Field Services. All rights reserved. Vetted Technical Field Deployments.
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Chat Widget (AI Dispatch Assistant) -->
+    <div id="ai-chat-widget" class="ai-chat-widget">
+        <div id="ai-chat-window" class="ai-chat-window">
+            <div class="ai-chat-header">
+                <div class="ai-chat-header-info">
+                    <div class="ai-avatar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="10" rx="2" />
+                            <circle cx="12" cy="5" r="2" />
+                            <path d="M12 7v4" />
+                            <line x1="8" y1="16" x2="8" y2="16" />
+                            <line x1="16" y1="16" x2="16" y2="16" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4>AI Dispatch Copilot</h4>
+                        <span>NomadIT Assistant</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ai-chat-messages" id="ai-chat-messages">
+                <div class="ai-message bot">
+                    <div class="message-content">
+                        Hello! I am the NomadIT Dispatch Assistant. I can help you scope on-site cabling, POS setups, CCTV installs, and EV charger projects, book an engineer, or check a work order status. How can I help you today?
+                    </div>
+                </div>
+            </div>
+            <div class="ai-chat-input">
+                <input type="text" id="ai-chat-input-field" placeholder="Ask about structured cabling, EV charger, POS..." autocomplete="off">
+                <button id="ai-chat-send">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <button id="ai-chat-toggle" class="ai-chat-toggle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="chat-icon">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="close-icon" style="display: none;">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Direct Ticket Access & Multi-Platform Technician Assignment Modal -->
+    <div id="direct-ticket-modal" class="direct-modal" style="display: none;">
+        <div class="direct-modal-backdrop" onclick="closeDirectTicket()"></div>
+        <div class="direct-modal-content">
+            <div class="direct-modal-header">
+                <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                    <span id="dt-platform-badge" class="badge badge-fn">⚡ Field Nation</span>
+                    <h3 id="dt-ticket-title" style="margin: 0; font-size: 1.25rem; color: var(--text-primary);">Ticket Title</h3>
+                    <span id="dt-ticket-id" style="font-family: monospace; font-size: 0.85rem; color: var(--accent); background: rgba(0,240,255,0.08); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(0,240,255,0.2);">WO #000000</span>
+                </div>
+                <button class="direct-modal-close" onclick="closeDirectTicket()" title="Close">&times;</button>
+            </div>
+            
+            <div class="direct-modal-body">
+                <!-- Left Pane: Work Order Specifications & SOW Checklist -->
+                <div class="direct-pane-left">
+                    <div class="dt-info-grid">
+                        <div class="dt-info-item">
+                            <span class="dt-info-label">Client / Facility</span>
+                            <span class="dt-info-value" id="dt-client">Client Name</span>
+                        </div>
+                        <div class="dt-info-item">
+                            <span class="dt-info-label">Site Location</span>
+                            <span class="dt-info-value" id="dt-location">City, UT</span>
+                        </div>
+                        <div class="dt-info-item">
+                            <span class="dt-info-label">Service Discipline</span>
+                            <span class="dt-info-value" id="dt-service-type">Smart Hands</span>
+                        </div>
+                        <div class="dt-info-item">
+                            <span class="dt-info-label">SOW Payout / Rate</span>
+                            <span class="dt-info-value" id="dt-payout" style="color: #4ade80;">$145.00 / Flat</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.25rem;">
+                        <h4 style="font-size: 0.88rem; color: var(--accent); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em;">SOW Deliverables & Scope Protocol</h4>
+                        <div id="dt-sow-description" style="font-size: 0.85rem; line-height: 1.55; color: var(--text-secondary); background: var(--bg-primary); padding: 0.9rem 1.1rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                            Detailed description...
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.25rem;">
+                        <h4 style="font-size: 0.88rem; color: var(--accent); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em;">Mandatory Verification Checklist</h4>
+                        <ul id="dt-checklist" class="dt-checklist" style="list-style: none; padding: 0; margin: 0;">
+                            <!-- Dynamic checklist items -->
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 1.25rem; display: flex; gap: 0.85rem; align-items: center; flex-wrap: wrap;">
+                        <a id="dt-portal-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 0.65rem 1.2rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                            <span>🚀 Open in Platform Portal</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        </a>
+                        <span id="dt-sync-status" style="font-size: 0.8rem; color: #4ade80; display: inline-flex; align-items: center; gap: 0.4rem;">
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: #4ade80; display: inline-block;"></span>
+                            Live Direct Access Active
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Right Pane: Technician Assignment & Live Dispatch -->
+                <div class="direct-pane-right">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <h4 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">Assign Technician</h4>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary);" id="dt-assigned-summary">Currently: Unassigned</span>
+                    </div>
+
+                    <!-- Filter Techs by Platform Credential -->
+                    <div class="tech-filter-row" style="display: flex; gap: 0.35rem; margin-bottom: 0.85rem; flex-wrap: wrap;">
+                        <button class="tech-filter-btn active" data-tech-filter="all" onclick="filterTechs('all', this)">All (6)</button>
+                        <button class="tech-filter-btn" data-tech-filter="fieldnation" onclick="filterTechs('fieldnation', this)">⚡ FN Certified</button>
+                        <button class="tech-filter-btn" data-tech-filter="workmarket" onclick="filterTechs('workmarket', this)">💼 WM Tier 1</button>
+                        <button class="tech-filter-btn" data-tech-filter="cloudworkpro" onclick="filterTechs('cloudworkpro', this)">☁️ CWP Elite</button>
+                    </div>
+
+                    <!-- Tech List Container -->
+                    <div id="tech-roster" class="tech-roster" style="display: flex; flex-direction: column; gap: 0.65rem; max-height: 420px; overflow-y: auto; padding-right: 4px;">
+                        <!-- Dynamically populated technician cards -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dispatch Toast Notification -->
+    <div id="dispatch-toast" class="dispatch-toast" style="display: none;">
+        <div class="toast-icon">✔</div>
+        <div class="toast-body">
+            <strong id="toast-title">Technician Assigned</strong>
+            <span id="toast-msg">Alex Vance successfully dispatched</span>
+        </div>
+    </div>
+
+    <!-- Lightbox Expansion Modal -->
+    <div id="lightbox-modal" class="lightbox-modal" onclick="closeLightbox()" style="display: none;">
+        <button id="lightbox-close" class="lightbox-close" title="Close" onclick="closeLightbox()">&times;</button>
+        <img id="lightbox-img" class="lightbox-content" src="" alt="Expanded View" onclick="event.stopPropagation();">
+    </div>
+
+    <script>
+        function openLightbox(src) {
+            var modal = document.getElementById('lightbox-modal');
+            var img = document.getElementById('lightbox-img');
+            if (modal && img) {
+                img.src = src;
+                modal.style.display = 'flex';
+                modal.classList.add('active');
+            }
+        }
+        function closeLightbox() {
+            var modal = document.getElementById('lightbox-modal');
+            if (modal) {
+                modal.style.display = 'none';
+                modal.classList.remove('active');
+            }
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

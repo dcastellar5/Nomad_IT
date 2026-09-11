@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NomadIT | Request Dispatch & Quote Estimator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav style="background: rgba(10, 15, 30, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div class="container nav-container">
+            <a href="index.html" class="logo-container" style="text-decoration: none;">
+                <img src="assets/logo.png" alt="NomadIT Logo" class="logo-img">
+                <span class="logo-text">NomadIT</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#services">Services</a>
+                <a href="index.html#packages">Pricing Tiers</a>
+            </div>
+            <a href="index.html" class="btn btn-outline" style="padding: 0.5rem 1rem;">Back to Home</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="assessment-hero container" style="padding: 8rem 0 3rem; text-align: center;">
+        <span class="badge" style="background: rgba(0, 240, 255, 0.1); color: var(--accent); border: 1px solid rgba(0,240,255,0.2);">Instant Cost Scoping</span>
+        <h1 style="font-size: 3.5rem; margin: 1.5rem 0; line-height: 1.1;">Request Dispatch & Estimator</h1>
+        <p style="font-size: 1.2rem; max-width: 750px; margin: 0 auto; color: var(--text-secondary); line-height: 1.6;">
+            Select the structured cabling runs, camera installs, server racking, and retail equipment needed at your site to calculate a transparent labor estimate and generate a work order.</p>
+    </section>
+
+    <!-- Pain Points / Dangers -->
+    <section class="container" style="padding-bottom: 4rem;">
+        <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.2rem; color: white;">The Pain of Unregulated Field Techs</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <div style="background: rgba(255, 60, 60, 0.05); border: 1px solid rgba(255, 60, 60, 0.2); padding: 2rem; border-radius: 12px; transition: transform 0.3s;">
+                <h3 style="color: #ff4d4d; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; font-size: 1.2rem;">⚠️ Low-Quality Workmanship</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;">Many dispatch companies send unchecked gig-workers who arrive without critical tooling like ladder clamps, RJ45 crimpers, or fiber certifiers, leading to half-done installations and project delays.</p>
+            </div>
+            <div style="background: rgba(255, 60, 60, 0.05); border: 1px solid rgba(255, 60, 60, 0.2); padding: 2rem; border-radius: 12px; transition: transform 0.3s;">
+                <h3 style="color: #ff4d4d; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; font-size: 1.2rem;">⚠️ Missing Closeout Photos</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;">Getting proof of deliverables is notoriously difficult. Sites are left with unlabeled ethernet runs, messy racks, and no photograhic documentation or signed ticket sheets.</p>
+            </div>
+            <div style="background: rgba(255, 60, 60, 0.05); border: 1px solid rgba(255, 60, 60, 0.2); padding: 2rem; border-radius: 12px; transition: transform 0.3s;">
+                <h3 style="color: #ff4d4d; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; font-size: 1.2rem;">⚠️ Unpredictable Invoice Padding</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;">Without clear scope scoping and structured NTE (Not-to-Exceed) thresholds, single dispatches can result in bloated invoices, inflated travel fees, and double-billed labor hours.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Calculator & Scope builder -->
+    <section class="container" style="padding: 5rem 0; border-top: 1px solid var(--border-color);">
+        <div class="estimator-grid">
+            
+            <!-- Left Side: Interactive Cost Checklist -->
+            <div class="estimator-card">
+                <h2 style="margin-bottom: 2rem; color: white; font-size: 1.8rem;">Select On-Site Requirements</h2>
+                
+                <!-- Group 1: Cabling & Infrastructure -->
+                <div class="calc-group">
+                    <h3>1. Structured Cabling & Fiber Drops</h3>
+                    <div class="calc-row">
+                        <label for="drops-ethernet">Cat6 Ethernet Drops (Copper)</label>
+                        <div class="calc-control">
+                            <input type="number" id="drops-ethernet" min="0" value="0">
+                            <span style="color: var(--text-secondary); font-size: 0.9rem; width: 60px;">$125/ea</span>
+                        </div>
+                    </div>
+                    <div class="calc-row">
+                        <label for="drops-fiber">Fiber Optic Runs (Spliced & Terminated)</label>
+                        <div class="calc-control">
+                            <input type="number" id="drops-fiber" min="0" value="0">
+                            <span style="color: var(--text-secondary); font-size: 0.9rem; width: 60px;">$250/ea</span>
+                        </div>
+                    </div>
+                    <div class="calc-row">
+                        <label for="fluke-cert">Need Calibrated Fluke Certification Scan Reports</label>
+                        <div class="calc-control">
+                            <input type="checkbox" id="fluke-cert" class="checkbox-custom">
+                            <span style="color: var(--text-secondary); font-size: 0.9rem; width: 60px;">+$250</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 2: Camera & Security Hardware -->
+                <div class="calc-group">
+                    <h3>2. Security Cameras, Alarms & Access Control</h3>
+                    <div class="calc-row">
+                        <label for="hardware-cams">Surveillance Cameras (IP/CCTV Mount & Hookup)</label>
+                        <div class="calc-control">
+                            <input type="number" id="hardware-cams" min="0" value="0">
+                            <span style="color: var(--text-secondary); font-size: 0.9rem; width: 60px;">$150/ea</span>
+                        </div>
+                    </div>
+                    <div class="calc-row">
+                        <label for="hardware-access">Access Control Doors (Badge Reader/Lock Setup)</label>
+                        <div class="calc-control">
+                            <input type="number" id="hardware-access" min="0" value="0">
+                            <span style="color: var(--text-secondary); font-size: 0.9rem; width: 60px;">$250/ea</span>
+                        </div>
+                    </div>
+                    <div class="calc-row">
+                        <label for="hardware-alarms">Alarm System Sensors & Control Board Mount</label>
+                        <div class="calc-control">
+                            <input type="number" id="hardware-alarms" min="0" value="0">
+                            <span style="color: var(--text-secondary); font-size: 0.9rem; width: 60px;">$95/ea</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 3: Retail & POS Hardware -->
+                <div class="calc-group">
+                    <h3>3. Point of Sale & Interactive Terminals</h3>
+                    <div class="calc-row">
+                        <label for="retail-pos">POS Registers (Registers, Scanners, Receipt Printers)</label>
+                        <div class="calc-control">
+                            <input type="number" id="retail-pos" min="0" value="0">
+                            <span style="color: var(--text-secondary); font-size: 0.9rem; width: 60px;">$120/ea</span>
+                        </div>
+                    </div>
+                    <div class="calc-row">
+                        <label for="retail-checkout">Self-Checkout Registers (Assembly & Commissioning)</label>
+                        <div class="calc-control">
+                            <input type="number" id="retail-checkout" min="0" value="0">
+                            <span style="color: var(--text-secondary); font-size: 0.9rem; width: 60px;">$350/ea</span>
+                        </div>
+                    </div>
+                    <div class="calc-row">
+                        <label for="retail-kiosk">ATM / Interactive Kiosk / Smart Locker setups</label>
+                        <div class="calc-control">
+                            <input type="number" id="retail-kiosk" min="0" value="0">
+                            <span style="color: var(--text-secondary); font-size: 0.9rem; width: 60px;">$280/ea</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 4: Server Racks & Network -->
+                <div class="calc-group" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+                    <h3>4. Network switches, WAPs & Server Rackings</h3>
+                    <div class="calc-row">
+                        <label for="sys-switch">Wireless Access Points (APs) or Switches (Mount & Test)</label>
+                        <div class="calc-control">
+                            <input type="number" id="sys-switch" min="0" value="0">
+                            <span style="color: var(--text-secondary); font-size: 0.9rem; width: 60px;">$110/ea</span>
+                        </div>
+                    </div>
+                    <div class="calc-row">
+                        <label for="sys-server">Servers / Storage arrays (Rack Mount & Patch Cables)</label>
+                        <div class="calc-control">
+                            <input type="number" id="sys-server" min="0" value="0">
+                            <span style="color: var(--text-secondary); font-size: 0.9rem; width: 60px;">$220/ea</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Sticky Total breakdown & Intake Form -->
+            <div style="display: flex; flex-direction: column; gap: 2rem;">
+                <div class="summary-sidebar">
+                    <h3 style="margin-bottom: 1.5rem; color: white;">Cost Summary</h3>
+                    <div class="summary-row">
+                        <span>Base Dispatch Fee</span>
+                        <strong style="color: white;">$175.00</strong>
+                    </div>
+                    <div class="summary-row">
+                        <span>Scoped Labor Costs</span>
+                        <strong id="summary-labor" style="color: white;">$0.00</strong>
+                    </div>
+                    <div class="summary-row">
+                        <span>Specialty & Certs</span>
+                        <strong id="summary-premium" style="color: white;">$0.00</strong>
+                    </div>
+                    <div class="summary-total">
+                        <span style="font-weight: 600; color: white;">Est. Total Price</span>
+                        <span class="total-price" id="summary-total-cost">$175.00</span>
+                    </div>
+                </div>
+
+                <!-- Dispatch Intake Lead Form -->
+                <div style="background: rgba(255,255,255,0.03); padding: 2.5rem; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
+                    <h3 style="margin-bottom: 0.5rem; font-size: 1.5rem; color: white;">Submit Dispatch Request</h3>
+                    <p style="margin-bottom: 2rem; font-size: 0.95rem; color: var(--text-secondary);">Enter site details to queue this estimate as a pending dispatch ticket.</p>
+                    <form id="assessment-form" style="display: flex; flex-direction: column; gap: 1.2rem;">
+                        <input type="text" id="lead-name" placeholder="Contact Name" required
+                            style="padding: 1.2rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: white; outline: none; transition: border-color 0.3s; font-family: inherit;">
+                        <input type="text" id="lead-company" placeholder="Company Name" required
+                            style="padding: 1.2rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: white; outline: none; transition: border-color 0.3s; font-family: inherit;">
+                        <input type="email" id="lead-email" placeholder="Work Email" required
+                            style="padding: 1.2rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: white; outline: none; transition: border-color 0.3s; font-family: inherit;">
+                        <input type="text" id="lead-site" placeholder="Site Address (City, State)" required
+                            style="padding: 1.2rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: white; outline: none; transition: border-color 0.3s; font-family: inherit;">
+                        <select id="lead-platform" required
+                            style="padding: 1.2rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: white; outline: none; transition: border-color 0.3s; font-family: inherit;">
+                            <option value="" disabled selected>Preferred Sourcing / Dispatch Platform</option>
+                            <option value="direct">Direct NomadIT Contract (Master Services Agreement)</option>
+                            <option value="fieldnation">⚡ Field Nation (Work Order Routing)</option>
+                            <option value="workmarket">💼 WorkMarket (Labor Cloud Assignment)</option>
+                            <option value="cloudworkpro">☁️ CloudWorkPRO (Enterprise Field SOW)</option>
+                        </select>
+                        <select id="lead-priority" required
+                            style="padding: 1.2rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: white; outline: none; transition: border-color 0.3s; font-family: inherit;">
+                            <option value="" disabled selected>Dispatch Urgency</option>
+                            <option value="standard">Standard (Within 24–48 hours)</option>
+                            <option value="expedited">Expedited (Next Day Dispatch)</option>
+                            <option value="emergency">Emergency (4-hour SLA response)</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary" style="padding: 1.2rem; font-size: 1.1rem; margin-top: 0.5rem;">Request Field Dispatch</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 3rem 0; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 4rem;">
+        <p>&copy; 2026 NomadIT Field Services. Professional nationwide on-site technical deployments.</p>
+    </footer>
+
+    <script>
+        // Estimate Calculations constants
+        const BASE_DISPATCH = 175;
+        const COST_ETHERNET = 125;
+        const COST_FIBER = 250;
+        const COST_FLUKE = 250;
+        const COST_CAM = 150;
+        const COST_ACCESS = 250;
+        const COST_ALARM = 95;
+        const COST_POS = 120;
+        const COST_CHECKOUT = 350;
+        const COST_KIOSK = 280;
+        const COST_SWITCH = 110;
+        const COST_SERVER = 220;
+
+        // Elements
+        const inpEthernet = document.getElementById('drops-ethernet');
+        const inpFiber = document.getElementById('drops-fiber');
+        const chkFluke = document.getElementById('fluke-cert');
+        const inpCam = document.getElementById('hardware-cams');
+        const inpAccess = document.getElementById('hardware-access');
+        const inpAlarm = document.getElementById('hardware-alarms');
+        const inpPos = document.getElementById('retail-pos');
+        const inpCheckout = document.getElementById('retail-checkout');
+        const inpKiosk = document.getElementById('retail-kiosk');
+        const inpSwitch = document.getElementById('sys-switch');
+        const inpServer = document.getElementById('sys-server');
+
+        const displayLabor = document.getElementById('summary-labor');
+        const displayPremium = document.getElementById('summary-premium');
+        const displayTotal = document.getElementById('summary-total-cost');
+
+        function calculateEstimate() {
+            // Read values
+            const numEthernet = Math.max(0, parseInt(inpEthernet.value) || 0);
+            const numFiber = Math.max(0, parseInt(inpFiber.value) || 0);
+            const numCam = Math.max(0, parseInt(inpCam.value) || 0);
+            const numAccess = Math.max(0, parseInt(inpAccess.value) || 0);
+            const numAlarm = Math.max(0, parseInt(inpAlarm.value) || 0);
+            const numPos = Math.max(0, parseInt(inpPos.value) || 0);
+            const numCheckout = Math.max(0, parseInt(inpCheckout.value) || 0);
+            const numKiosk = Math.max(0, parseInt(inpKiosk.value) || 0);
+            const numSwitch = Math.max(0, parseInt(inpSwitch.value) || 0);
+            const numServer = Math.max(0, parseInt(inpServer.value) || 0);
+            const hasFluke = chkFluke.checked;
+
+            // Calculate labor
+            const laborCost = 
+                (numEthernet * COST_ETHERNET) +
+                (numFiber * COST_FIBER) +
+                (numCam * COST_CAM) +
+                (numAccess * COST_ACCESS) +
+                (numAlarm * COST_ALARM) +
+                (numPos * COST_POS) +
+                (numCheckout * COST_CHECKOUT) +
+                (numKiosk * COST_KIOSK) +
+                (numSwitch * COST_SWITCH) +
+                (numServer * COST_SERVER);
+
+            // Premium/Certs
+            const premiumCost = hasFluke ? COST_FLUKE : 0;
+
+            // Total
+            const totalCost = BASE_DISPATCH + laborCost + premiumCost;
+
+            // Update UI
+            displayLabor.textContent = `$${laborCost.toFixed(2)}`;
+            displayPremium.textContent = `$${premiumCost.toFixed(2)}`;
+            displayTotal.textContent = `$${totalCost.toFixed(2)}`;
+        }
+
+        // Add Listeners
+        const inputsList = [
+            inpEthernet, inpFiber, chkFluke, inpCam, inpAccess, inpAlarm,
+            inpPos, inpCheckout, inpKiosk, inpSwitch, inpServer
+        ];
+
+        inputsList.forEach(input => {
+            if (input) {
+                const eventName = input.type === 'checkbox' ? 'change' : 'input';
+                input.addEventListener(eventName, calculateEstimate);
+            }
+        });
+
+        // Form Submit
+        document.getElementById('assessment-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('lead-name').value;
+            const company = document.getElementById('lead-company').value;
+            const platformSelect = document.getElementById('lead-platform');
+            const platformText = platformSelect.options[platformSelect.selectedIndex].text;
+            const totalVal = displayTotal.textContent;
+
+            const btn = this.querySelector('button');
+            const originalText = btn.textContent;
+            btn.textContent = 'Scheduling dispatch...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                alert(`Work order created successfully for ${company}!\n\nEstimated Base Rate: ${totalVal}\nRouting Channel: ${platformText}\nContact Representative: ${name}\n\nOur service manager will call you within 15 minutes to verify technical details and dispatch the technician.`);
+                btn.textContent = originalText;
+                btn.disabled = false;
+                
+                // Reset inputs and calculate
+                document.getElementById('assessment-form').reset();
+                inputsList.forEach(inp => {
+                    if (inp.type === 'checkbox') inp.checked = false;
+                    else inp.value = 0;
+                });
+                calculateEstimate();
+            }, 1800);
+        });
+    </script>
+</body>
+
+</html>
